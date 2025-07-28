@@ -15,6 +15,22 @@ SmartPortfolio is intended to:
 
 This project is currently in the planning phase. More documentation and implementation details will follow as development progresses.
 
+## Command Line Demo
+
+The repository now includes a small CLI demonstrating the five GUI concepts:
+
+```bash
+python3 smartportfolio_cli.py
+```
+
+From the menu you can access:
+
+1. **Dashboard** – shows a mock portfolio overview
+2. **Recommendations** – prints example buy/sell suggestions
+3. **Simulation mode** – lets you test a trade before approving
+4. **Portfolio history** – displays a simple ASCII chart
+5. **Settings** – change risk level and notification frequency
+
 ## GUI Concept
 
 A simple user interface could include:
