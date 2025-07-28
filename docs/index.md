@@ -1,13 +1,12 @@
 # 📊 SmartPortfolio
+Welcome to the SmartPortfolio documentation site. View the code repository on [GitHub](../).
 
 This repository contains the early planning documents for **SmartPortfolio**, a web and mobile application aimed at helping private investors optimize their stock portfolios.
 
 See [VISION.md](VISION.md) for the detailed vision statement in both Danish and English.
 
-The documentation is also available via GitHub Pages in the `docs/` folder.
-
-
 ## Overview
+
 SmartPortfolio is intended to:
 
 - Provide an easy-to-understand portfolio overview
