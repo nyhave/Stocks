@@ -25,6 +25,7 @@
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     table.transactions { border-collapse: collapse; width: 100%; margin-top: 0.5em; }
     table.transactions th, table.transactions td { border: 1px solid #ccc; padding: 0.4em; text-align: left; }
+    table.transactions th:nth-child(n+2), table.transactions td:nth-child(n+2) { text-align: right; }
     table.transactions tr.buy { color: green; }
     table.transactions tr.sell { color: red; }
     .score-bar { background: #eee; width: 100%; height: 1em; margin-bottom: 0.5em; }
