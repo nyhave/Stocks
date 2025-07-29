@@ -179,23 +179,6 @@ function HistoryPage({ lang }) {
   );
 }
 
-function VisionPage({ lang }) {
-  const [text, setText] = React.useState(null);
-  React.useEffect(() => {
-    window.loadVision().then(() => setText(window.visionText));
-  }, []);
-  const t = window.locales[lang].labels.nav.vision;
-  return (
-    <div className="container">
-      <h1>{t}</h1>
-      {text ? (
-        <pre style={{ whiteSpace: 'pre-wrap' }}>{text}</pre>
-      ) : (
-        'Loading...'
-      )}
-    </div>
-  );
-}
 
 function SettingsPage({ lang }) {
   const [risk, setRisk] = React.useState('medium');
@@ -257,8 +240,6 @@ function App() {
         return <PredictPage lang={lang} />;
       case 'history':
         return <HistoryPage lang={lang} />;
-      case 'vision':
-        return <VisionPage lang={lang} />;
       case 'settings':
         return <SettingsPage lang={lang} />;
       default:
@@ -294,7 +275,6 @@ function App() {
           {navLink('dashboard', t.nav.dashboard)}
           {navLink('predict', t.nav.predict)}
           {navLink('history', t.nav.history)}
-          {navLink('vision', t.nav.vision)}
           {navLink('settings', t.nav.settings)}
           <label htmlFor="langSelect">{t.lang}:
             <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>
