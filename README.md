@@ -44,4 +44,10 @@ A simple user interface could include:
 
 ## Web Demo
 
-A lightweight Flutter demo is included in the `flutter_demo/` directory. Build it using `flutter build web` and copy the contents of `build/web` into the `docs/` folder so it can be hosted on GitHub Pages. Once built, open `docs/index.html` directly in your browser or visit the project's GitHub Pages site. The demo mirrors the CLI features with simple in-browser state and does not require a backend yet. Integration with a Python backend will be added later.
+The `docs/` folder hosts a minimal Flutter web build so it can be served via GitHub Pages. If you clone the repository locally you can rebuild the demo with:
+
+```bash
+flutter build web -o docs
+```
+
+If the compiled files are missing, the page will display a short message with the same instructions instead of a blank screen. The demo mirrors the CLI features with simple in-browser state and does not require a backend yet. Integration with a Python backend will be added later.
