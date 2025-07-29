@@ -17,22 +17,6 @@ This project is currently in the planning phase. More documentation and implemen
 
 The React application in the repository root is now the production front-end served via GitHub Pages.
 
-## Command Line Demo
-
-The repository now includes a small CLI demonstrating the five GUI concepts:
-
-```bash
-node smartportfolio_cli.js
-```
-
-From the menu you can access:
-
-1. **Dashboard** – shows a mock portfolio overview
-2. **Recommendations** – prints example buy/sell suggestions
-3. **Simulation mode** – lets you test a trade before approving
-4. **Portfolio history** – displays a simple ASCII chart
-5. **Settings** – change risk level and notification frequency
-
 ## GUI Concept
 
 A simple user interface could include:
