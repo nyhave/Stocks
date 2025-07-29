@@ -1,7 +1,11 @@
 function getHoldingsWithValue(portfolio) {
   return portfolio.holdings.map(h => ({
     ...h,
-    value: (h.weight / 100) * portfolio.invested
+    value: (h.weight / 100) * portfolio.invested,
+    price:
+      window.marketData && window.marketData[h.ticker]
+        ? window.marketData[h.ticker].price
+        : null
   }));
 }
 
@@ -12,28 +16,38 @@ const demoHistory = [
 ];
 
 function DashboardPage({ lang }) {
-  const holdings = React.useMemo(
-    () => getHoldingsWithValue(window.demoPortfolio),
-    []
+  const [holdings, setHoldings] = React.useState(
+    getHoldingsWithValue(window.demoPortfolio)
   );
+
+  React.useEffect(() => {
+    if (window.loadMarketData) {
+      window.loadMarketData().then(() => {
+        setHoldings(getHoldingsWithValue(window.demoPortfolio));
+      });
+    }
+  }, []);
+
   const t = window.locales[lang].labels;
   return (
     <div className="container">
       <h1>SmartPortfolio Dashboard</h1>
       <table className="transactions">
         <thead>
-          <tr><th>Ticker</th><th>%</th><th>Value (DDK)</th></tr>
+          <tr><th>Ticker</th><th>{t.price}</th><th>%</th><th>Value (DDK)</th></tr>
         </thead>
         <tbody>
           {holdings.map((h, i) => (
             <tr key={i}>
               <td>{h.ticker}</td>
+              <td>{h.price ? h.price.toFixed(2) : '-'}</td>
               <td>{h.weight}</td>
               <td>{h.value.toFixed(2)}</td>
             </tr>
           ))}
           <tr>
             <td>Cash</td>
+            <td>-</td>
             <td>{(100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)).toFixed(2)}</td>
             <td>{(window.demoPortfolio.invested * (100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)) / 100).toFixed(2)}</td>
           </tr>
@@ -156,6 +170,24 @@ function HistoryPage({ lang }) {
   );
 }
 
+function VisionPage({ lang }) {
+  const [text, setText] = React.useState(null);
+  React.useEffect(() => {
+    window.loadVision().then(() => setText(window.visionText));
+  }, []);
+  const t = window.locales[lang].labels.nav.vision;
+  return (
+    <div className="container">
+      <h1>{t}</h1>
+      {text ? (
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{text}</pre>
+      ) : (
+        'Loading...'
+      )}
+    </div>
+  );
+}
+
 function SettingsPage({ lang }) {
   const [risk, setRisk] = React.useState('medium');
   const [freq, setFreq] = React.useState('weekly');
@@ -188,6 +220,15 @@ function App() {
   const [page, setPage] = React.useState('dashboard');
 
   React.useEffect(() => {
+    if (window.loadVision) {
+      window.loadVision();
+    }
+    if (window.loadMarketData) {
+      window.loadMarketData();
+    }
+  }, []);
+
+  React.useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
@@ -201,6 +242,8 @@ function App() {
         return <PredictPage lang={lang} />;
       case 'history':
         return <HistoryPage lang={lang} />;
+      case 'vision':
+        return <VisionPage lang={lang} />;
       case 'settings':
         return <SettingsPage lang={lang} />;
       default:
@@ -227,6 +270,7 @@ function App() {
         {navLink('dashboard', t.nav.dashboard)}
         {navLink('predict', t.nav.predict)}
         {navLink('history', t.nav.history)}
+        {navLink('vision', t.nav.vision)}
         {navLink('settings', t.nav.settings)}
         <label htmlFor="langSelect">{t.lang}:
           <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>

@@ -10,6 +10,7 @@ window.locales = {
       result: 'Result',
       darkMode: 'Dark Mode',
       cost: 'Cost',
+      price: 'Price',
       actions: { buy: 'Buy', sell: 'Sell' },
       cashError: 'Cash percentage must be between 0 and 100',
       select: 'Select',
@@ -20,6 +21,7 @@ window.locales = {
         dashboard: 'Dashboard',
         predict: 'Predict',
         history: 'History',
+        vision: 'Vision',
         settings: 'Settings'
       },
       notify: 'Notification frequency',
@@ -49,6 +51,7 @@ window.locales = {
       result: 'Resultat',
       darkMode: 'M\u00f8rk tilstand',
       cost: 'Omkostning',
+      price: 'Pris',
       actions: { buy: 'K\u00f8b', sell: 'S\u00e6lg' },
       cashError: 'Kontant procent skal v\u00e6re mellem 0 og 100',
       select: 'V\u00e6lg',
@@ -59,6 +62,7 @@ window.locales = {
         dashboard: 'Oversigt',
         predict: 'Beregn',
         history: 'Historik',
+        vision: 'Vision',
         settings: 'Indstillinger'
       },
       notify: 'Notifikationsfrekvens',
