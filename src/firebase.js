@@ -1,19 +1,18 @@
 // Minimal Firebase setup for the SmartPortfolio React app
 // Using the modular Firebase SDK loaded from the CDN.
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js';
-import { initializeFirestore } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
+import { initializeFirestore } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
 // Firebase configuration for the public development project
 const firebaseConfig = {
-  apiKey: "AIzaSyAwb70Myug06CMrwysQ-VNKIEoYs2D79sk",
-  authDomain: "stocks-d68d0.firebaseapp.com",
-  projectId: "stocks-d68d0",
-  storageBucket: "stocks-d68d0.firebasestorage.app",
-  messagingSenderId: "685162092195",
-  appId: "1:685162092195:web:e778fed604e224617f5116",
-  measurementId: "G-7YBHJLY6Y9"
+  apiKey: "AIzaSyAsg49ymxVQYoHzWJPFrYCE6E0pjGd54aI",
+  authDomain: "stocks-c40b4.firebaseapp.com",
+  projectId: "stocks-c40b4",
+  storageBucket: "stocks-c40b4.firebasestorage.app",
+  messagingSenderId: "40268119136",
+  appId: "1:40268119136:web:cf226f44f801c53087d705"
 };
 
 function initFirebase() {
