@@ -3,7 +3,14 @@
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
-import { initializeFirestore } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+import {
+  initializeFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc
+} from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
 // Firebase configuration for the public development project
 const firebaseConfig = {
@@ -15,10 +22,10 @@ const firebaseConfig = {
   appId: "1:40268119136:web:cf226f44f801c53087d705"
 };
 
-function initFirebase() {
+async function initFirebase() {
   if (window.db) {
     console.log('Firebase already initialized');
-    return;
+    return window.db;
   }
   const app = initializeApp(firebaseConfig);
   try {
@@ -31,6 +38,28 @@ function initFirebase() {
   const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
   window.db = db;
   console.log('Firebase initialized');
+  const ok = await checkFirestoreConnection(db);
+  if (!ok) {
+    console.warn('Firestore connection could not be verified');
+  }
+  return db;
+}
+
+async function checkFirestoreConnection(db) {
+  const testRef = doc(collection(db, 'connectionTest'));
+  try {
+    await setDoc(testRef, { time: Date.now() });
+    const snap = await getDoc(testRef);
+    if (snap.exists()) {
+      console.log('Firestore connection OK');
+      await deleteDoc(testRef);
+      return true;
+    }
+    console.warn('Firestore connection test document missing');
+  } catch (err) {
+    console.error('Firestore connection test failed', err);
+  }
+  return false;
 }
 
 window.initFirebase = initFirebase;
