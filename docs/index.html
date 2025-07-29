@@ -6,10 +6,16 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <noscript>Please enable JavaScript to run this app.</noscript>
   <script>
     window.addEventListener('load', function () {
       if (window._flutter && window._flutter.loader) {
         window._flutter.loader.loadEntrypoint();
+      } else {
+        // Fallback message when build artifacts are missing
+        var s = document.createElement('script');
+        s.src = 'main.dart.js';
+        document.body.appendChild(s);
       }
     });
   </script>
