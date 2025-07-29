@@ -32,6 +32,30 @@ const demoHistory = [
   1018000, 1032000, 1040000, 1035000, 1050000
 ];
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    console.error('ErrorBoundary caught:', error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      const en = window.locales.en.errorBoundaryMessage;
+      const da = window.locales.da.errorBoundaryMessage;
+      return <div className="error">{en} / {da}</div>;
+    }
+    return this.props.children;
+  }
+}
+
 function DashboardPage({ lang }) {
   const holdings = React.useMemo(
     () => getHoldingsWithValue(window.demoPortfolio),
@@ -250,5 +274,9 @@ function App() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);
 
