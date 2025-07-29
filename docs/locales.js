@@ -10,7 +10,9 @@ window.locales = {
       darkMode: 'Dark Mode',
       cost: 'Cost',
       actions: { buy: 'Buy', sell: 'Sell' },
-      cashError: 'Cash percentage must be between 0 and 100'
+      cashError: 'Cash percentage must be between 0 and 100',
+      riskHelp: 'Select your overall risk appetite',
+      cashHelp: 'Percentage of portfolio kept as cash (0-100)'
     },
     explanationTechTooHigh: 'Your exposure to tech is too high'
   },
@@ -25,7 +27,9 @@ window.locales = {
       darkMode: 'M\u00f8rk tilstand',
       cost: 'Omkostning',
       actions: { buy: 'K\u00f8b', sell: 'S\u00e6lg' },
-      cashError: 'Kontant procent skal v\u00e6re mellem 0 og 100'
+      cashError: 'Kontant procent skal v\u00e6re mellem 0 og 100',
+      riskHelp: 'Vælg din overordnede risikovillighed',
+      cashHelp: 'Andel af porteføljen der holdes som kontant (0-100)'
     },
     explanationTechTooHigh: 'Din eksponering mod tech er for h\u00f8j'
   }

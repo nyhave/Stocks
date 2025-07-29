@@ -27,19 +27,43 @@ function dummyPredict(input, lang) {
   });
 }
 
+function Help({ text }) {
+  const [show, setShow] = React.useState(false);
+  return (
+    <span className="help" onClick={() => setShow(!show)}>
+      ?{show && <span className="helptext">{text}</span>}
+    </span>
+  );
+}
+
+const riskLevels = ['low', 'medium', 'high'];
+
 function PredictDemo() {
-  const [risk, setRisk] = React.useState('medium');
-  const [cash, setCash] = React.useState(10);
-  const [lang, setLang] = React.useState('en');
+  const [risk, setRisk] = React.useState(() => localStorage.getItem('risk') || 'medium');
+  const [cash, setCash] = React.useState(() => Number(localStorage.getItem('cash') || 10));
+  const [lang, setLang] = React.useState(() => localStorage.getItem('lang') || 'en');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [cashError, setCashError] = React.useState(null);
-  const [darkMode, setDarkMode] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(() => localStorage.getItem('darkMode') === 'true');
   const [holdings, setHoldings] = React.useState(getHoldingsWithValue(window.demoPortfolio));
 
   React.useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
+    localStorage.setItem('darkMode', darkMode);
   }, [darkMode]);
+
+  React.useEffect(() => {
+    localStorage.setItem('risk', risk);
+  }, [risk]);
+
+  React.useEffect(() => {
+    localStorage.setItem('cash', cash);
+  }, [cash]);
+
+  React.useEffect(() => {
+    localStorage.setItem('lang', lang);
+  }, [lang]);
 
   const t = window.locales[lang].labels;
 
@@ -93,16 +117,22 @@ function PredictDemo() {
       </table>
       <div className="controls">
         <label htmlFor="risk">{t.risk}:
-          <select id="risk" value={risk} onChange={e => setRisk(e.target.value)}>
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
-          </select>
-          <span className="help" title="Select your overall risk appetite" aria-label="risk help">?</span>
+          <input
+            id="risk"
+            type="range"
+            min="0"
+            max="2"
+            step="1"
+            value={riskLevels.indexOf(risk)}
+            onChange={e => setRisk(riskLevels[e.target.value])}
+          />
+          <span className="range-value">{risk}</span>
+          <Help text={t.riskHelp} />
         </label>
         <label htmlFor="cash">{t.cash}:
-          <input id="cash" type="number" min="0" max="100" value={cash} onChange={handleCashChange} />
-          <span className="help" title="Percentage of portfolio kept as cash (0-100)" aria-label="cash help">?</span>
+          <input id="cash" type="range" min="0" max="100" value={cash} onChange={handleCashChange} />
+          <span className="range-value">{cash}%</span>
+          <Help text={t.cashHelp} />
         </label>
         {cashError && <div className="error">{cashError}</div>}
         <label htmlFor="lang">{t.lang}:
