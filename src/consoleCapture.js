@@ -18,7 +18,7 @@
   });
 
   const dismissBtn = document.createElement('button');
-  dismissBtn.textContent = 'Dismiss / Luk';
+  dismissBtn.textContent = 'Dismiss';
   Object.assign(dismissBtn.style, {
     float: 'right',
     background: '#444',
@@ -29,7 +29,7 @@
   });
 
   const copyBtn = document.createElement('button');
-  copyBtn.textContent = 'Copy / Kopier';
+  copyBtn.textContent = 'Copy';
   Object.assign(copyBtn.style, {
     float: 'right',
     background: '#444',
