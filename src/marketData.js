@@ -1,15 +1,17 @@
 // Load market quotes from Yahoo Finance and cache in Firestore
+import { collection, doc, getDoc, setDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
 async function loadMarketData() {
   if (!window.db) {
     console.error('Firestore not initialized');
     return;
   }
-  const docRef = window.db.collection('marketData').doc('latest');
+  const docRef = doc(collection(window.db, 'marketData'), 'latest');
   try {
-    const doc = await docRef.get();
+    const snapshot = await getDoc(docRef);
     let shouldUpdate = true;
-    if (doc.exists) {
-      const data = doc.data();
+    if (snapshot.exists()) {
+      const data = snapshot.data();
       if (data.updated && Date.now() - data.updated.toMillis() < 86400000) {
         shouldUpdate = false;
         window.marketData = data.quotes;
@@ -30,7 +32,7 @@ async function loadMarketData() {
           };
         });
       }
-      await docRef.set({ quotes, updated: firebase.firestore.Timestamp.now() });
+      await setDoc(docRef, { quotes, updated: Timestamp.now() });
       window.marketData = quotes;
     }
   } catch (err) {
