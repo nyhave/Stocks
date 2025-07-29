@@ -112,7 +112,11 @@ function PredictPage({ lang }) {
           </select>
         </label>
         {cashError && <div className="error">{cashError}</div>}
-        <button onClick={handlePredict} disabled={loading}>
+        <button
+          className="bg-blue-600 text-white text-xl px-6 py-3 rounded disabled:opacity-50 w-full sm:w-auto"
+          onClick={handlePredict}
+          disabled={loading}
+        >
           {loading && <span className="spinner" aria-label="loading"></span>}
           {loading ? t.predicting : t.predict}
         </button>
@@ -128,7 +132,12 @@ function PredictPage({ lang }) {
               <div key={idx} className="portfolio">
                 <h3>{p.name}</h3>
                 <p>{t.expectedReturn}: {p.expectedReturn.toFixed(0)}</p>
-                <button onClick={() => setSelected(idx)}>{t.show}</button>
+                <button
+                  className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
+                  onClick={() => setSelected(idx)}
+                >
+                  {t.show}
+                </button>
                 {selected === idx && (
                   <div>
                     <p>{p.explanation}</p>
@@ -209,7 +218,12 @@ function SettingsPage({ lang }) {
           <option value="monthly">monthly</option>
         </select>
       </label>
-      <button onClick={() => alert('Saved')}>{t.save}</button>
+      <button
+        className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
+        onClick={() => alert('Saved')}
+      >
+        {t.save}
+      </button>
     </div>
   );
 }
