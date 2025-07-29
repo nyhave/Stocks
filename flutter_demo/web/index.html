@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>SmartPortfolio Flutter Demo</title>
+  <meta charset="UTF-8">
+  <title>SmartPortfolio Demo</title>
   <script src="flutter.js" defer></script>
 </head>
 <body>
@@ -10,6 +10,10 @@
     window.addEventListener('load', function () {
       if (window._flutter && window._flutter.loader) {
         window._flutter.loader.loadEntrypoint();
+      } else {
+        var s = document.createElement('script');
+        s.src = 'main.dart.js';
+        document.body.appendChild(s);
       }
     });
   </script>
