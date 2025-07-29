@@ -44,7 +44,7 @@ A simple user interface could include:
 
 ## Web Demo
 
-The project root now hosts `index.html` so it can be served directly on GitHub Pages. The supporting scripts still live inside the `docs/` folder. It handles Firebase initialisation directly in the browser and uses [Tailwind CSS](https://tailwindcss.com/) for responsive styling on both mobile and desktop. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `docs/`.
+The project root now hosts `index.html` so it can be served directly on GitHub Pages. The supporting scripts now live inside the `src/` folder. It handles Firebase initialisation directly in the browser and uses [Tailwind CSS](https://tailwindcss.com/) for responsive styling on both mobile and desktop. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `src/`.
 
 The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. A future backend will also be written in JavaScript.
 
