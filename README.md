@@ -48,3 +48,7 @@ The `docs/` folder now contains a small React web demo that can be served via Gi
 
 If no build is present, the page shows a simple placeholder message. Integration with a Python backend will be added later.
 
+
+## Predict Algorithm
+
+See [docs/predict.md](docs/predict.md) for a description of the core predict function in both Danish and English.

@@ -2,18 +2,83 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>SmartPortfolio React Demo</title>
+  <title>SmartPortfolio Predict Demo</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <style>
     body { font-family: sans-serif; padding: 2em; }
+    label { display: block; margin-top: 0.5em; }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/javascript">
+    const { useState } = React;
+
+    const examplePortfolio = {
+      holdings: [
+        { ticker: 'AAPL', quantity: 10, price: 150 },
+        { ticker: 'TSLA', quantity: 5, price: 700 }
+      ],
+      cash: 2000
+    };
+
+    function predict(portfolio, prefs) {
+      const actionScore = prefs.risk === 'high' ? 80 : 40;
+      const transactions = actionScore > 70 ? [{ action: 'buy', ticker: 'MSFT', amount: 1000 }] : [];
+      return {
+        actionScore,
+        newPortfolio: portfolio,
+        transactions,
+        explanation: actionScore > 70 ?
+          'Market trend positive - consider buying MSFT' :
+          'Portfolio in good balance'
+      };
+    }
+
+    function App() {
+      const [risk, setRisk] = useState('medium');
+      const [horizon, setHorizon] = useState('medium');
+      const [result, setResult] = useState(null);
+
+      const handleRun = () => {
+        const prefs = { risk, horizon };
+        const res = predict(examplePortfolio, prefs);
+        setResult(res);
+      };
+
+      return React.createElement('div', null,
+        React.createElement('h1', null, 'SmartPortfolio Predict Demo'),
+        React.createElement('label', null, 'Risk level:',
+          React.createElement('select', { value: risk, onChange: e => setRisk(e.target.value) },
+            React.createElement('option', { value: 'low' }, 'Low'),
+            React.createElement('option', { value: 'medium' }, 'Medium'),
+            React.createElement('option', { value: 'high' }, 'High')
+          )
+        ),
+        React.createElement('label', null, 'Investment horizon:',
+          React.createElement('select', { value: horizon, onChange: e => setHorizon(e.target.value) },
+            React.createElement('option', { value: 'short' }, '<2 years'),
+            React.createElement('option', { value: 'medium' }, '2-5 years'),
+            React.createElement('option', { value: 'long' }, '>5 years')
+          )
+        ),
+        React.createElement('button', { onClick: handleRun, style: { marginTop: '1em' } }, 'Run Predict'),
+        result && React.createElement('div', { style: { marginTop: '1em' } },
+          React.createElement('h2', null, 'Result'),
+          React.createElement('p', null, 'Action score: ' + result.actionScore),
+          React.createElement('p', null, result.explanation),
+          result.transactions.length > 0 && React.createElement('ul', null,
+            result.transactions.map((t, i) =>
+              React.createElement('li', { key: i }, `${t.action} ${t.ticker} $${t.amount}`)
+            )
+          )
+        )
+      );
+    }
+
     const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement('h1', null, 'SmartPortfolio React Demo Coming Soon'));
+    root.render(React.createElement(App));
   </script>
 </body>
 </html>
