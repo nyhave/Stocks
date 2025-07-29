@@ -34,3 +34,5 @@ The project root hosts `index.html` which contains the production React applicat
 
 The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. The backend will also be written in JavaScript.
 
+Sample command-line scripts demonstrating the portfolio logic are located in `src/smartportfolio/`. They can be executed with Node for quick experimentation.
+
