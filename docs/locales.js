@@ -20,7 +20,8 @@ window.locales = {
       notify: 'Notification frequency',
       save: 'Save'
     },
-    explanationTechTooHigh: 'Your exposure to tech is too high'
+    explanationTechTooHigh: 'Your exposure to tech is too high',
+    errorBoundaryMessage: 'Something went wrong. Please reload the page.'
   },
   da: {
     labels: {
@@ -43,6 +44,7 @@ window.locales = {
       notify: 'Notifikationsfrekvens',
       save: 'Gem'
     },
-    explanationTechTooHigh: 'Din eksponering mod tech er for h\u00f8j'
+    explanationTechTooHigh: 'Din eksponering mod tech er for h\u00f8j',
+    errorBoundaryMessage: 'Noget gik galt. Genindl\u00e6s venligst siden.'
   }
 };
