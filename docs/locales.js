@@ -21,7 +21,6 @@ window.locales = {
         dashboard: 'Dashboard',
         predict: 'Predict',
         history: 'History',
-        vision: 'Vision',
         settings: 'Settings'
       },
       notify: 'Notification frequency',
@@ -62,7 +61,6 @@ window.locales = {
         dashboard: 'Oversigt',
         predict: 'Beregn',
         history: 'Historik',
-        vision: 'Vision',
         settings: 'Indstillinger'
       },
       notify: 'Notifikationsfrekvens',
