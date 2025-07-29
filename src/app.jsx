@@ -195,7 +195,6 @@ function SettingsPage({ lang, setLang, darkMode, setDarkMode }) {
           onChange={e => setLang(e.target.value)}
         >
           <option value="en">English</option>
-          <option value="da">Dansk</option>
         </select>
       </label>
       <label>
