@@ -13,5 +13,8 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-window.db = firebase.firestore();
+// Enable fallback to long-polling in case WebSockets are blocked
+const firestore = firebase.firestore();
+firestore.settings({ experimentalAutoDetectLongPolling: true });
+window.db = firestore;
 console.log("Firebase initialized");
