@@ -207,6 +207,18 @@ function SettingsPage({ lang }) {
       >
         {t.save}
       </button>
+      <button
+        className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
+        onClick={() => window.initFirebase && window.initFirebase()}
+      >
+        {t.initFirebase}
+      </button>
+      <button
+        className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
+        onClick={() => window.loadMarketData && window.loadMarketData()}
+      >
+        {t.updateTickers}
+      </button>
     </div>
   );
 }
@@ -218,6 +230,9 @@ function App() {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
+    if (window.initFirebase) {
+      window.initFirebase();
+    }
     if (window.loadVision) {
       window.loadVision();
     }

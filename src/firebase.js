@@ -12,9 +12,17 @@ const firebaseConfig = {
   measurementId: "G-7YBHJLY6Y9"
 };
 
-firebase.initializeApp(firebaseConfig);
-// Enable fallback to long-polling in case WebSockets are blocked
-const firestore = firebase.firestore();
-firestore.settings({ experimentalAutoDetectLongPolling: true });
-window.db = firestore;
-console.log("Firebase initialized");
+function initFirebase() {
+  if (window.db) {
+    console.log("Firebase already initialized");
+    return;
+  }
+  firebase.initializeApp(firebaseConfig);
+  // Enable fallback to long-polling in case WebSockets are blocked
+  const firestore = firebase.firestore();
+  firestore.settings({ experimentalAutoDetectLongPolling: true });
+  window.db = firestore;
+  console.log("Firebase initialized");
+}
+
+window.initFirebase = initFirebase;
