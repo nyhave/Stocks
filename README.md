@@ -41,3 +41,7 @@ A simple user interface could include:
 4. **Portfolio history** – charts of performance compared to benchmarks.
 5. **Settings** – personal preferences for risk level, sectors, and notification frequency.
 
+
+## Web Demo
+
+A lightweight React demo is available under the 'docs/' folder so it can be hosted on GitHub Pages. Open 'docs/index.html' directly in your browser or visit the project's GitHub Pages site once enabled. The demo mirrors the CLI features with simple in-browser state and does not require a backend yet. Integration with a Python backend will be added later.
