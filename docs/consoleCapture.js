@@ -28,6 +28,24 @@
     marginLeft: '0.5em'
   });
 
+  const copyBtn = document.createElement('button');
+  copyBtn.textContent = 'Copy / Kopier';
+  Object.assign(copyBtn.style, {
+    float: 'right',
+    background: '#444',
+    color: 'white',
+    border: 'none',
+    cursor: 'pointer',
+    marginLeft: '0.5em'
+  });
+
+  copyBtn.onclick = function() {
+    const text = Array.from(list.children)
+      .map(n => n.textContent)
+      .join('\n');
+    navigator.clipboard.writeText(text);
+  };
+
   let dismissed = false;
   dismissBtn.onclick = function() {
     dismissed = true;
@@ -35,6 +53,7 @@
   };
 
   const list = document.createElement('div');
+  overlay.appendChild(copyBtn);
   overlay.appendChild(dismissBtn);
   overlay.appendChild(list);
   document.addEventListener('DOMContentLoaded', function() {
