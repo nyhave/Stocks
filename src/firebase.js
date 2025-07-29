@@ -44,14 +44,15 @@ async function checkFirestoreConnection(db) {
   const testRef = doc(collection(db, 'connectionTest'), 'ping');
   try {
     await setDoc(testRef, { time: Date.now() });
+    console.log('First write succeeded / Første skrivning lykkedes');
     const snap = await getDoc(testRef);
     if (snap.exists()) {
-      console.log('Connection test succeeded');
+      console.log('Connection test succeeded / Forbindelsestest lykkedes');
     } else {
-      console.warn('Connection test failed');
+      console.warn('Connection test failed / Forbindelsestest fejlede');
     }
   } catch (err) {
-    console.error('Connection test failed', err);
+    console.error('First write failed / Første skrivning fejlede', err);
   }
 }
 
