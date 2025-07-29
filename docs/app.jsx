@@ -27,20 +27,49 @@ function dummyPredict(input, lang) {
   });
 }
 
-function PredictDemo() {
+const demoHistory = [
+  1000000, 1005000, 995000, 1010000, 1025000,
+  1018000, 1032000, 1040000, 1035000, 1050000
+];
+
+function DashboardPage({ lang }) {
+  const holdings = React.useMemo(
+    () => getHoldingsWithValue(window.demoPortfolio),
+    []
+  );
+  const t = window.locales[lang].labels;
+  return (
+    <div className="container">
+      <h1>SmartPortfolio Dashboard</h1>
+      <table className="transactions">
+        <thead>
+          <tr><th>Ticker</th><th>%</th><th>Value (DDK)</th></tr>
+        </thead>
+        <tbody>
+          {holdings.map((h, i) => (
+            <tr key={i}>
+              <td>{h.ticker}</td>
+              <td>{h.weight}</td>
+              <td>{h.value.toFixed(2)}</td>
+            </tr>
+          ))}
+          <tr>
+            <td>Cash</td>
+            <td>{(100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)).toFixed(2)}</td>
+            <td>{(window.demoPortfolio.invested * (100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)) / 100).toFixed(2)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function PredictPage({ lang }) {
   const [risk, setRisk] = React.useState('medium');
   const [cash, setCash] = React.useState(10);
-  const [lang, setLang] = React.useState('en');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [cashError, setCashError] = React.useState(null);
-  const [darkMode, setDarkMode] = React.useState(false);
-  const [holdings, setHoldings] = React.useState(getHoldingsWithValue(window.demoPortfolio));
-
-  React.useEffect(() => {
-    document.body.classList.toggle('dark', darkMode);
-  }, [darkMode]);
-
   const t = window.locales[lang].labels;
 
   const handleCashChange = e => {
@@ -64,33 +93,14 @@ function PredictDemo() {
     setLoading(false);
   };
 
-  const getTransactionCost = t => {
-    const fee = exchangeFees[t.exchange] || 0;
-    return (t.amount * fee) / 100;
+  const getTransactionCost = tItem => {
+    const fee = exchangeFees[tItem.exchange] || 0;
+    return (tItem.amount * fee) / 100;
   };
 
   return (
     <div className="container">
-      <h1>SmartPortfolio React Demo (with Firebase)</h1>
-      <table className="transactions">
-        <thead>
-          <tr><th>Ticker</th><th>%</th><th>Value (DDK)</th></tr>
-        </thead>
-        <tbody>
-          {holdings.map((h, i) => (
-            <tr key={i}>
-              <td>{h.ticker}</td>
-              <td>{h.weight}</td>
-              <td>{h.value.toFixed(2)}</td>
-            </tr>
-          ))}
-          <tr>
-            <td>Cash</td>
-            <td>{(100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)).toFixed(2)}</td>
-            <td>{(window.demoPortfolio.invested * (100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)) / 100).toFixed(2)}</td>
-          </tr>
-        </tbody>
-      </table>
+      <h1>SmartPortfolio Predict</h1>
       <div className="controls">
         <label htmlFor="risk">{t.risk}:
           <select id="risk" value={risk} onChange={e => setRisk(e.target.value)}>
@@ -98,22 +108,11 @@ function PredictDemo() {
             <option value="medium">medium</option>
             <option value="high">high</option>
           </select>
-          <span className="help" title="Select your overall risk appetite" aria-label="risk help">?</span>
         </label>
         <label htmlFor="cash">{t.cash}:
           <input id="cash" type="number" min="0" max="100" value={cash} onChange={handleCashChange} />
-          <span className="help" title="Percentage of portfolio kept as cash (0-100)" aria-label="cash help">?</span>
         </label>
         {cashError && <div className="error">{cashError}</div>}
-        <label htmlFor="lang">{t.lang}:
-          <select id="lang" value={lang} onChange={e => setLang(e.target.value)}>
-            <option value="en">English</option>
-            <option value="da">Dansk</option>
-          </select>
-        </label>
-        <label>
-          <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
-        </label>
         <button onClick={handlePredict} disabled={loading}>
           {loading && <span className="spinner" aria-label="loading"></span>}
           {loading ? t.predicting : t.predict}
@@ -145,5 +144,87 @@ function PredictDemo() {
   );
 }
 
+function HistoryPage({ lang }) {
+  const max = Math.max(...demoHistory);
+  const t = window.locales[lang].labels;
+  return (
+    <div className="container">
+      <h1>{t.nav.history}</h1>
+      <ul className="history">
+        {demoHistory.map((v, i) => (
+          <li key={i}>
+            <div className="bar" style={{ width: (v / max) * 100 + '%' }}></div>
+            {v.toFixed(0)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function SettingsPage({ lang }) {
+  const [risk, setRisk] = React.useState('medium');
+  const [freq, setFreq] = React.useState('weekly');
+  const t = window.locales[lang].labels;
+  return (
+    <div className="container">
+      <h1>{t.nav.settings}</h1>
+      <label>{t.risk}:
+        <select value={risk} onChange={e => setRisk(e.target.value)}>
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+      </label>
+      <label>{t.notify}:
+        <select value={freq} onChange={e => setFreq(e.target.value)}>
+          <option value="daily">daily</option>
+          <option value="weekly">weekly</option>
+          <option value="monthly">monthly</option>
+        </select>
+      </label>
+      <button onClick={() => alert('Saved')}>{t.save}</button>
+    </div>
+  );
+}
+
+function App() {
+  const [lang, setLang] = React.useState('en');
+  const [darkMode, setDarkMode] = React.useState(false);
+
+  React.useEffect(() => {
+    document.body.classList.toggle('dark', darkMode);
+  }, [darkMode]);
+
+  const t = window.locales[lang].labels;
+
+  return (
+    <ReactRouterDOM.BrowserRouter basename=".">
+      <nav>
+        <ReactRouterDOM.NavLink to="/" end>{t.nav.dashboard}</ReactRouterDOM.NavLink>
+        <ReactRouterDOM.NavLink to="/predict">{t.nav.predict}</ReactRouterDOM.NavLink>
+        <ReactRouterDOM.NavLink to="/history">{t.nav.history}</ReactRouterDOM.NavLink>
+        <ReactRouterDOM.NavLink to="/settings">{t.nav.settings}</ReactRouterDOM.NavLink>
+        <label htmlFor="langSelect">{t.lang}:
+          <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>
+            <option value="en">English</option>
+            <option value="da">Dansk</option>
+          </select>
+        </label>
+        <label>
+          <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
+        </label>
+      </nav>
+      <ReactRouterDOM.Routes>
+        <ReactRouterDOM.Route path="/" element={<DashboardPage lang={lang} />} />
+        <ReactRouterDOM.Route path="/predict" element={<PredictPage lang={lang} />} />
+        <ReactRouterDOM.Route path="/history" element={<HistoryPage lang={lang} />} />
+        <ReactRouterDOM.Route path="/settings" element={<SettingsPage lang={lang} />} />
+      </ReactRouterDOM.Routes>
+    </ReactRouterDOM.BrowserRouter>
+  );
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<PredictDemo />);
+root.render(<App />);
+
