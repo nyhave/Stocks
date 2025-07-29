@@ -21,11 +21,12 @@ function DashboardPage({ lang }) {
   );
 
   React.useEffect(() => {
-    if (window.loadMarketData) {
-      window.loadMarketData().then(() => {
-        setHoldings(getHoldingsWithValue(window.demoPortfolio));
-      });
-    }
+    window.updateHoldings = () => {
+      setHoldings(getHoldingsWithValue(window.demoPortfolio));
+    };
+    return () => {
+      delete window.updateHoldings;
+    };
   }, []);
 
   const t = window.locales[lang].labels;
@@ -210,17 +211,19 @@ function SettingsPage({ lang }) {
       </button>
       <button
         className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
-        onClick={() => window.initFirebase && window.initFirebase()}
-        title={t.initFirebase}
+        onClick={() => {
+          if (window.initFirebase) {
+            window.initFirebase();
+          }
+          if (window.loadMarketData) {
+            window.loadMarketData().then(() => {
+              if (window.updateHoldings) window.updateHoldings();
+            });
+          }
+        }}
+        title={t.loadData}
       >
-        {t.initFirebase}
-      </button>
-      <button
-        className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
-        onClick={() => window.loadMarketData && window.loadMarketData()}
-        title={t.updateTickers}
-      >
-        {t.updateTickers}
+        {t.loadData}
       </button>
     </div>
   );
@@ -231,18 +234,6 @@ function App() {
   const [darkMode, setDarkMode] = React.useState(false);
   const [page, setPage] = React.useState('dashboard');
   const [menuOpen, setMenuOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    if (window.initFirebase) {
-      window.initFirebase();
-    }
-    if (window.loadVision) {
-      window.loadVision();
-    }
-    if (window.loadMarketData) {
-      window.loadMarketData();
-    }
-  }, []);
 
   React.useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
