@@ -3,10 +3,7 @@ function dummyPredict(input, lang) {
     setTimeout(() => {
       resolve({
         actionScore: 75,
-        explanation: {
-          da: 'Din eksponering mod tech er for h\u00f8j',
-          en: 'Your exposure to tech is too high',
-        },
+        explanation: window.locales[lang].explanationTechTooHigh,
         transactions: [
           { action: 'buy', ticker: 'AAPL', amount: 2 },
           { action: 'sell', ticker: 'TSLA', amount: 1 }
@@ -22,10 +19,28 @@ function PredictDemo() {
   const [lang, setLang] = React.useState('en');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
+  const [cashError, setCashError] = React.useState(null);
+  const [darkMode, setDarkMode] = React.useState(false);
+
+  React.useEffect(() => {
+    document.body.classList.toggle('dark', darkMode);
+  }, [darkMode]);
+
+  const t = window.locales[lang].labels;
+
+  const handleCashChange = e => {
+    const val = Number(e.target.value);
+    setCash(val);
+    if (val < 0 || val > 100) {
+      setCashError(t.cashError);
+    } else {
+      setCashError(null);
+    }
+  };
 
   const handlePredict = async () => {
     if (cash < 0 || cash > 100) {
-      alert('Cash % must be between 0 and 100');
+      setCashError(t.cashError);
       return;
     }
     setLoading(true);
@@ -34,42 +49,56 @@ function PredictDemo() {
     setLoading(false);
   };
 
-  const explanation = result ? result.explanation[lang] : '';
-
   return (
     <div className="container">
       <h1>SmartPortfolio React Demo (with Firebase)</h1>
       <div className="controls">
-        <label htmlFor="risk">Risk:
+        <label htmlFor="risk">{t.risk}:
           <select id="risk" value={risk} onChange={e => setRisk(e.target.value)}>
             <option value="low">low</option>
             <option value="medium">medium</option>
             <option value="high">high</option>
           </select>
-          <span className="help" title="Select your overall risk appetite">?</span>
+          <span className="help" title="Select your overall risk appetite" aria-label="risk help">?</span>
         </label>
-        <label htmlFor="cash">Cash %:
-          <input id="cash" type="number" min="0" max="100" value={cash} onChange={e => setCash(Number(e.target.value))} />
-          <span className="help" title="Percentage of portfolio kept as cash (0-100)">?</span>
+        <label htmlFor="cash">{t.cash}:
+          <input id="cash" type="number" min="0" max="100" value={cash} onChange={handleCashChange} />
+          <span className="help" title="Percentage of portfolio kept as cash (0-100)" aria-label="cash help">?</span>
         </label>
-        <label htmlFor="lang">Language:
+        {cashError && <div className="error">{cashError}</div>}
+        <label htmlFor="lang">{t.lang}:
           <select id="lang" value={lang} onChange={e => setLang(e.target.value)}>
             <option value="en">English</option>
             <option value="da">Dansk</option>
           </select>
         </label>
-        <button onClick={handlePredict} disabled={loading}>{loading ? 'Predicting...' : 'Predict'}</button>
+        <label>
+          <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
+        </label>
+        <button onClick={handlePredict} disabled={loading}>
+          {loading && <span className="spinner" aria-label="loading"></span>}
+          {loading ? t.predicting : t.predict}
+        </button>
       </div>
       {result && (
         <div className="result">
-          <h2>Result</h2>
+          <h2>{t.result}</h2>
           <div className="score-bar"><div className="score" style={{ width: result.actionScore + '%' }}></div></div>
-          <p className="explanation">{explanation}</p>
-          <ul>
-            {result.transactions.map((t, i) => (
-              <li key={i} className={t.action}>{t.action === 'buy' ? '✔️' : '❌'} {t.action} {t.ticker} ({t.amount})</li>
-            ))}
-          </ul>
+          <p className="explanation">{result.explanation}</p>
+          <table className="transactions">
+            <thead>
+              <tr><th>{t.actions.buy}/{t.actions.sell}</th><th>Ticker</th><th>Amt</th></tr>
+            </thead>
+            <tbody>
+              {result.transactions.map((tItem, i) => (
+                <tr key={i} className={tItem.action}>
+                  <td>{tItem.action === 'buy' ? '✔️' : '❌'} {t.actions[tItem.action]}</td>
+                  <td>{tItem.ticker}</td>
+                  <td>{tItem.amount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
@@ -78,4 +107,3 @@ function PredictDemo() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<PredictDemo />);
-
