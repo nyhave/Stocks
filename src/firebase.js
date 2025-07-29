@@ -1,7 +1,7 @@
-// Minimal Firebase setup for SmartPortfolio React demo
+// Minimal Firebase setup for the SmartPortfolio React app
 // Replace with real project credentials when deploying.
 
-// Firebase configuration for the public demo project
+// Firebase configuration for the public development project
 const firebaseConfig = {
   apiKey: "AIzaSyAwb70Myug06CMrwysQ-VNKIEoYs2D79sk",
   authDomain: "stocks-d68d0.firebaseapp.com",

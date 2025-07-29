@@ -1,10 +1,10 @@
-name: Deploy React Web Demo
+name: Deploy React Web App
 
 on:
   push:
     paths:
       - 'src/**'
-      - '.github/workflows/flutter_web_demo.yml'
+      - '.github/workflows/react_app.yml'
   workflow_dispatch:
 
 jobs:
