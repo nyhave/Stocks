@@ -3,7 +3,13 @@
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js';
 import { getAnalytics } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js';
-import { initializeFirestore } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
+import {
+  initializeFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc
+} from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
 // Firebase configuration for the public development project
 const firebaseConfig = {
@@ -31,6 +37,22 @@ function initFirebase() {
   const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
   window.db = db;
   console.log('Firebase initialized');
+  checkFirestoreConnection(db);
+}
+
+async function checkFirestoreConnection(db) {
+  const testRef = doc(collection(db, 'connectionTest'), 'ping');
+  try {
+    await setDoc(testRef, { time: Date.now() });
+    const snap = await getDoc(testRef);
+    if (snap.exists()) {
+      console.log('Connection test succeeded');
+    } else {
+      console.warn('Connection test failed');
+    }
+  } catch (err) {
+    console.error('Connection test failed', err);
+  }
 }
 
 window.initFirebase = initFirebase;
