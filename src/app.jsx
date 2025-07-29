@@ -204,18 +204,21 @@ function SettingsPage({ lang }) {
       <button
         className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
         onClick={() => alert('Saved')}
+        title={t.save}
       >
         {t.save}
       </button>
       <button
         className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
         onClick={() => window.initFirebase && window.initFirebase()}
+        title={t.initFirebase}
       >
         {t.initFirebase}
       </button>
       <button
         className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
         onClick={() => window.loadMarketData && window.loadMarketData()}
+        title={t.updateTickers}
       >
         {t.updateTickers}
       </button>

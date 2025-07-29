@@ -24,8 +24,8 @@ window.locales = {
         settings: 'Settings'
       },
       notify: 'Notification frequency',
-      save: 'Save',
-      initFirebase: 'Init Firebase',
+      save: 'Save settings',
+      initFirebase: 'Initialize Firebase',
       updateTickers: 'Update tickers'
     },
     biasExplanation: {
@@ -66,7 +66,7 @@ window.locales = {
         settings: 'Indstillinger'
       },
       notify: 'Notifikationsfrekvens',
-      save: 'Gem',
+      save: 'Gem indstillinger',
       initFirebase: 'Initialis\u00e9r Firebase',
       updateTickers: 'Opdater tickers'
     },
