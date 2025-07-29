@@ -1,3 +1,10 @@
+const exchangeFees = {
+  NewYork: 0.1,
+  London: 0.5,
+  Tokyo: 0.3,
+  Frankfurt: 0.2
+};
+
 function dummyPredict(input, lang) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -5,8 +12,8 @@ function dummyPredict(input, lang) {
         actionScore: 75,
         explanation: window.locales[lang].explanationTechTooHigh,
         transactions: [
-          { action: 'buy', ticker: 'AAPL', amount: 2 },
-          { action: 'sell', ticker: 'TSLA', amount: 1 }
+          { action: 'buy', ticker: 'AAPL', amount: 2, exchange: 'NewYork' },
+          { action: 'sell', ticker: 'TSLA', amount: 1, exchange: 'London' }
         ]
       });
     }, 500);
@@ -49,6 +56,11 @@ function PredictDemo() {
     setLoading(false);
   };
 
+  const getTransactionCost = t => {
+    const fee = exchangeFees[t.exchange] || 0;
+    return (t.amount * fee) / 100;
+  };
+
   return (
     <div className="container">
       <h1>SmartPortfolio React Demo (with Firebase)</h1>
@@ -87,7 +99,7 @@ function PredictDemo() {
           <p className="explanation">{result.explanation}</p>
           <table className="transactions">
             <thead>
-              <tr><th>{t.actions.buy}/{t.actions.sell}</th><th>Ticker</th><th>Amt</th></tr>
+              <tr><th>{t.actions.buy}/{t.actions.sell}</th><th>Ticker</th><th>Amt</th><th>{t.cost}</th></tr>
             </thead>
             <tbody>
               {result.transactions.map((tItem, i) => (
@@ -95,6 +107,7 @@ function PredictDemo() {
                   <td>{tItem.action === 'buy' ? '✔️' : '❌'} {t.actions[tItem.action]}</td>
                   <td>{tItem.ticker}</td>
                   <td>{tItem.amount}</td>
+                  <td>{getTransactionCost(tItem).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

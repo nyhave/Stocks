@@ -8,6 +8,7 @@ window.locales = {
       predicting: 'Predicting...',
       result: 'Result',
       darkMode: 'Dark Mode',
+      cost: 'Cost',
       actions: { buy: 'Buy', sell: 'Sell' },
       cashError: 'Cash percentage must be between 0 and 100'
     },
@@ -22,6 +23,7 @@ window.locales = {
       predicting: 'Beregner...',
       result: 'Resultat',
       darkMode: 'M\u00f8rk tilstand',
+      cost: 'Omkostning',
       actions: { buy: 'K\u00f8b', sell: 'S\u00e6lg' },
       cashError: 'Kontant procent skal v\u00e6re mellem 0 og 100'
     },
