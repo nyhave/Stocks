@@ -5,6 +5,13 @@ const exchangeFees = {
   Frankfurt: 0.2
 };
 
+function getHoldingsWithValue(portfolio) {
+  return portfolio.holdings.map(h => ({
+    ...h,
+    value: (h.weight / 100) * portfolio.invested
+  }));
+}
+
 function dummyPredict(input, lang) {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -28,6 +35,7 @@ function PredictDemo() {
   const [loading, setLoading] = React.useState(false);
   const [cashError, setCashError] = React.useState(null);
   const [darkMode, setDarkMode] = React.useState(false);
+  const [holdings, setHoldings] = React.useState(getHoldingsWithValue(window.demoPortfolio));
 
   React.useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -64,6 +72,25 @@ function PredictDemo() {
   return (
     <div className="container">
       <h1>SmartPortfolio React Demo (with Firebase)</h1>
+      <table className="transactions">
+        <thead>
+          <tr><th>Ticker</th><th>%</th><th>Value (DDK)</th></tr>
+        </thead>
+        <tbody>
+          {holdings.map((h, i) => (
+            <tr key={i}>
+              <td>{h.ticker}</td>
+              <td>{h.weight}</td>
+              <td>{h.value.toFixed(2)}</td>
+            </tr>
+          ))}
+          <tr>
+            <td>Cash</td>
+            <td>{(100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)).toFixed(2)}</td>
+            <td>{(window.demoPortfolio.invested * (100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)) / 100).toFixed(2)}</td>
+          </tr>
+        </tbody>
+      </table>
       <div className="controls">
         <label htmlFor="risk">{t.risk}:
           <select id="risk" value={risk} onChange={e => setRisk(e.target.value)}>
