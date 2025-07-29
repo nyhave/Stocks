@@ -15,6 +15,8 @@ SmartPortfolio is intended to:
 
 This project is currently in the planning phase. More documentation and implementation details will follow as development progresses.
 
+The React application in the repository root is now the production front-end served via GitHub Pages.
+
 ## Command Line Demo
 
 The repository now includes a small CLI demonstrating the five GUI concepts:
@@ -42,9 +44,9 @@ A simple user interface could include:
 5. **Settings** – personal preferences for risk level, sectors, and notification frequency.
 
 
-## Web Demo
+## React App
 
-The project root now hosts `index.html` so it can be served directly on GitHub Pages. The supporting scripts still live inside the `src/` folder. It handles Firebase initialisation directly in the browser and uses [Tailwind CSS](https://tailwindcss.com/) for responsive styling on both mobile and desktop. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `src/`.
+The project root hosts `index.html` which contains the production React application served from GitHub Pages. The supporting scripts live inside the `src/` folder. Build the app locally (for example with `npm run build`) and copy the static files into `src/` when updating the site.
 
-The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. A future backend will also be written in JavaScript.
+The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. The backend will also be written in JavaScript.
 
