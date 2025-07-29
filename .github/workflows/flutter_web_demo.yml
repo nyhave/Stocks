@@ -1,28 +1,18 @@
-name: Build Flutter Web Demo
+name: Deploy React Web Demo
 
 on:
   push:
     paths:
-      - 'flutter_demo/**'
+      - 'docs/**'
       - '.github/workflows/flutter_web_demo.yml'
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-      - name: Install dependencies
-        run: flutter pub get
-        working-directory: flutter_demo
-      - name: Build web demo
-        run: flutter build web -o ../docs
-        working-directory: flutter_demo
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs
-
