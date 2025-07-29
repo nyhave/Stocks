@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**'
       - '.github/workflows/react_app.yml'
+      - 'src/smartportfolio/**'
   workflow_dispatch:
 
 jobs:
