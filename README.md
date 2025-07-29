@@ -44,7 +44,7 @@ A simple user interface could include:
 
 ## Web Demo
 
-The `docs/` folder now contains a lightweight React web demo that can be served via GitHub Pages. It now handles Firebase initialisation directly in the browser. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `docs/`.
+The `docs/` folder now contains a lightweight React web demo that can be served via GitHub Pages. It now handles Firebase initialisation directly in the browser and includes basic responsive styling for mobile devices. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `docs/`.
 
 The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. Integration with a Python backend will be added later.
 
