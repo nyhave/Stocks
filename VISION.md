@@ -67,7 +67,7 @@ The user should not be dependent on following the stock market daily but should 
 
 ## 📈 Teknisk retning (forslag)
 
-- **Frontend:** Flutter (web and mobile)
+- **Frontend:** React for the web (and potentially React Native for mobile)
 - **Backend:** Firebase 
 - **Data:** Integration til fx Yahoo Finance, Finnhub eller Alpha Vantage API
 - **Analyse:** Pythonmotor til transaktionsforslag

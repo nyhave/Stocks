@@ -44,10 +44,7 @@ A simple user interface could include:
 
 ## Web Demo
 
-The `docs/` folder hosts a minimal Flutter web build so it can be served via GitHub Pages. If you clone the repository locally you can rebuild the demo with:
+The `docs/` folder now contains a small React web demo that can be served via GitHub Pages. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `docs/`.
 
-```bash
-flutter build web -o docs
-```
+If no build is present, the page shows a simple placeholder message. Integration with a Python backend will be added later.
 
-If the compiled files are missing, the page will display a short message with the same instructions instead of a blank screen. The demo mirrors the CLI features with simple in-browser state and does not require a backend yet. Integration with a Python backend will be added later.

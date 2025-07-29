@@ -2,22 +2,18 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>SmartPortfolio Flutter Demo</title>
-  <script src="flutter.js" defer></script>
+  <title>SmartPortfolio React Demo</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+  </style>
 </head>
 <body>
-  <noscript>Please enable JavaScript to run this app.</noscript>
-  <script>
-    window.addEventListener('load', function () {
-      if (window._flutter && window._flutter.loader) {
-        window._flutter.loader.loadEntrypoint();
-      } else {
-        // Fallback message when build artifacts are missing
-        var s = document.createElement('script');
-        s.src = 'main.dart.js';
-        document.body.appendChild(s);
-      }
-    });
+  <div id="root"></div>
+  <script type="text/javascript">
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement('h1', null, 'SmartPortfolio React Demo Coming Soon'));
   </script>
 </body>
 </html>
