@@ -1,5 +1,5 @@
 // Load vision document from GitHub and cache in Firestore
-import { collection, doc, getDoc, setDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+import { collection, doc, getDoc, setDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
 async function loadVision() {
   if (!window.db) {
