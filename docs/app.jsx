@@ -1,10 +1,3 @@
-const exchangeFees = {
-  NewYork: 0.1,
-  London: 0.5,
-  Tokyo: 0.3,
-  Frankfurt: 0.2
-};
-
 function getHoldingsWithValue(portfolio) {
   return portfolio.holdings.map(h => ({
     ...h,
@@ -12,20 +5,6 @@ function getHoldingsWithValue(portfolio) {
   }));
 }
 
-function dummyPredict(input, lang) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({
-        actionScore: 75,
-        explanation: window.locales[lang].explanationTechTooHigh,
-        transactions: [
-          { action: 'buy', ticker: 'AAPL', amount: 2, exchange: 'NewYork' },
-          { action: 'sell', ticker: 'TSLA', amount: 1, exchange: 'London' }
-        ]
-      });
-    }, 500);
-  });
-}
 
 const demoHistory = [
   1000000, 1005000, 995000, 1010000, 1025000,
@@ -67,7 +46,9 @@ function DashboardPage({ lang }) {
 function PredictPage({ lang }) {
   const [risk, setRisk] = React.useState('medium');
   const [cash, setCash] = React.useState(10);
+  const [bias, setBias] = React.useState('none');
   const [result, setResult] = React.useState(null);
+  const [selected, setSelected] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [cashError, setCashError] = React.useState(null);
   const t = window.locales[lang].labels;
@@ -88,14 +69,10 @@ function PredictPage({ lang }) {
       return;
     }
     setLoading(true);
-    const res = await dummyPredict({ risk, cash }, lang);
+    const res = await clientPredict({ risk, cash, bias }, lang);
     setResult(res);
+    setSelected(null);
     setLoading(false);
-  };
-
-  const getTransactionCost = tItem => {
-    const fee = exchangeFees[tItem.exchange] || 0;
-    return (tItem.amount * fee) / 100;
   };
 
   return (
@@ -112,6 +89,14 @@ function PredictPage({ lang }) {
         <label htmlFor="cash">{t.cash}:
           <input id="cash" type="number" min="0" max="100" value={cash} onChange={handleCashChange} />
         </label>
+        <label htmlFor="bias">{t.bias}:
+          <select id="bias" value={bias} onChange={e => setBias(e.target.value)}>
+            <option value="none">none</option>
+            <option value="tech">tech</option>
+            <option value="finance">finance</option>
+            <option value="industrial">industrial</option>
+          </select>
+        </label>
         {cashError && <div className="error">{cashError}</div>}
         <button onClick={handlePredict} disabled={loading}>
           {loading && <span className="spinner" aria-label="loading"></span>}
@@ -121,23 +106,32 @@ function PredictPage({ lang }) {
       {result && (
         <div className="result">
           <h2>{t.result}</h2>
-          <div className="score-bar"><div className="score" style={{ width: result.actionScore + '%' }}></div></div>
-          <p className="explanation">{result.explanation}</p>
-          <table className="transactions">
-            <thead>
-              <tr><th>{t.actions.buy}/{t.actions.sell}</th><th>Ticker</th><th>Amt</th><th>{t.cost}</th></tr>
-            </thead>
-            <tbody>
-              {result.transactions.map((tItem, i) => (
-                <tr key={i} className={tItem.action}>
-                  <td>{tItem.action === 'buy' ? '✔️' : '❌'} {t.actions[tItem.action]}</td>
-                  <td>{tItem.ticker}</td>
-                  <td>{tItem.amount}</td>
-                  <td>{getTransactionCost(tItem).toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {result.portfolios.map((p, idx) => {
+            const base = { low: 0.04, medium: 0.07, high: 0.12 };
+            const currentReturn = window.demoPortfolio.invested * base[risk];
+            const improvement = p.expectedReturn - currentReturn;
+            return (
+              <div key={idx} className="portfolio">
+                <h3>{p.name}</h3>
+                <p>{t.expectedReturn}: {p.expectedReturn.toFixed(0)}</p>
+                <button onClick={() => setSelected(idx)}>{t.show}</button>
+                {selected === idx && (
+                  <div>
+                    <p>{p.explanation}</p>
+                    <p>{t.improvement}: {improvement.toFixed(0)}</p>
+                    <table className="transactions">
+                      <thead><tr><th>Ticker</th><th>%</th></tr></thead>
+                      <tbody>
+                        {p.holdings.map((h, j) => (
+                          <tr key={j}><td>{h.ticker}</td><td>{h.weight}</td></tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

@@ -86,6 +86,9 @@ The predict function forms the core of SmartPortfolio. It evaluates the current 
 ### Functionality and logic
 The predict function combines a scoring model and rule set to ensure diversification, cash buffer and maximum exposure. Each stock is rated by key figures, performance and fit with the user’s strategy.
 
+### Client-side demo
+For the React demo a lightweight JavaScript version called `clientPredict` is used. It offers three suggested portfolios based on risk level, cash percentage and a chosen segment bias. Each suggestion includes an estimated return so users can compare before selecting.
+
 ### Example call
 ```python
 from smartportfolio.predict import predict, PortfolioInput, Stock
