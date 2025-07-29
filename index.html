@@ -13,6 +13,7 @@
   <style>
     body { font-family: sans-serif; padding: 2em; transition: background 0.3s, color 0.3s; }
     label { margin-right: 1em; }
+    select { padding: 0.5em; font-size: 1em; border: 1px solid #ccc; border-radius: 4px; }
     .controls { display: flex; flex-wrap: wrap; gap: 1em; align-items: center; }
     .help { margin-left: 0.3em; cursor: help; border-bottom: 1px dotted; }
     .error { color: red; font-size: 0.9em; }
@@ -39,6 +40,7 @@
     @media (max-width: 600px) {
       .controls { flex-direction: column; align-items: stretch; }
       .controls label { width: 100%; }
+      .controls select, nav .nav-links select { width: 100%; }
       nav .mobile-toggle { display: block; }
       nav .nav-links { display: none; width: 100%; }
       nav.open .nav-links { display: block; }
