@@ -70,7 +70,7 @@ The user should not be dependent on following the stock market daily but should 
 - **Frontend:** React for the web (and potentially React Native for mobile)
 - **Backend:** Firebase 
 - **Data:** Integration til fx Yahoo Finance, Finnhub eller Alpha Vantage API
-- **Analyse:** Pythonmotor til transaktionsforslag
+- **Analyse:** JavaScript-motor til transaktionsforslag / JavaScript engine for transaction suggestions
 - **Hosting:** endnu ikke afklaret. Vi starter med GitHub Pages
 
 ---

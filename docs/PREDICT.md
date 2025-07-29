@@ -35,19 +35,15 @@ Predict-funktionen er hjertet i SmartPortfolio og tager udgangspunkt i brugerens
 ### Funktionalitet og logik
 Predict kombinerer en scoringsmodel og et regelsæt for at sikre spredning, kontantbuffer og maksimal eksponering. Hver aktie vurderes ud fra nøgletal, performance og om den matcher brugerens strategi.
 
-### Eksempelkald
-```python
-from smartportfolio.predict import predict, PortfolioInput, Stock
+### Eksempelkald (JavaScript)
+```javascript
+const input = {
+  holdings: [{ ticker: 'AAPL', quantity: 10, purchasePrice: 150.0, purchaseDate: '2024-01-10' }],
+  cash: 2500.0,
+  risk: 'medium'
+};
 
-portfolio = PortfolioInput(
-    holdings=[Stock(ticker="AAPL", quantity=10, purchase_price=150.0, purchase_date="2024-01-10")],
-    cash_balance=2500.0,
-    horizon="mellem",
-    risk="middel"
-)
-
-result = predict(portfolio)
-print(result)
+clientPredict(input, 'da').then(result => console.log(result));
 ```
 
 ---
@@ -90,16 +86,12 @@ The predict function combines a scoring model and rule set to ensure diversifica
 For the React demo a lightweight JavaScript version called `clientPredict` is used. It offers three suggested portfolios based on risk level, cash percentage and a chosen segment bias. Each suggestion includes an estimated return so users can compare before selecting.
 
 ### Example call
-```python
-from smartportfolio.predict import predict, PortfolioInput, Stock
+```javascript
+const input = {
+  holdings: [{ ticker: 'AAPL', quantity: 10, purchasePrice: 150.0, purchaseDate: '2024-01-10' }],
+  cash: 2500.0,
+  risk: 'medium'
+};
 
-portfolio = PortfolioInput(
-    holdings=[Stock(ticker="AAPL", quantity=10, purchase_price=150.0, purchase_date="2024-01-10")],
-    cash_balance=2500.0,
-    horizon="medium",
-    risk="medium"
-)
-
-result = predict(portfolio)
-print(result)
+clientPredict(input, 'en').then(result => console.log(result));
 ```
