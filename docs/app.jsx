@@ -191,6 +191,7 @@ function SettingsPage({ lang }) {
 function App() {
   const [lang, setLang] = React.useState('en');
   const [darkMode, setDarkMode] = React.useState(false);
+  const [page, setPage] = React.useState('dashboard');
 
   React.useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -198,13 +199,41 @@ function App() {
 
   const t = window.locales[lang].labels;
 
+  const renderPage = () => {
+    switch (page) {
+      case 'dashboard':
+        return <DashboardPage lang={lang} />;
+      case 'predict':
+        return <PredictPage lang={lang} />;
+      case 'history':
+        return <HistoryPage lang={lang} />;
+      case 'settings':
+        return <SettingsPage lang={lang} />;
+      default:
+        return null;
+    }
+  };
+
+  const navLink = (key, label) => (
+    <a
+      href="#"
+      className={page === key ? 'active' : ''}
+      onClick={e => {
+        e.preventDefault();
+        setPage(key);
+      }}
+    >
+      {label}
+    </a>
+  );
+
   return (
-    <ReactRouterDOM.BrowserRouter basename=".">
+    <div>
       <nav>
-        <ReactRouterDOM.NavLink to="/" end>{t.nav.dashboard}</ReactRouterDOM.NavLink>
-        <ReactRouterDOM.NavLink to="/predict">{t.nav.predict}</ReactRouterDOM.NavLink>
-        <ReactRouterDOM.NavLink to="/history">{t.nav.history}</ReactRouterDOM.NavLink>
-        <ReactRouterDOM.NavLink to="/settings">{t.nav.settings}</ReactRouterDOM.NavLink>
+        {navLink('dashboard', t.nav.dashboard)}
+        {navLink('predict', t.nav.predict)}
+        {navLink('history', t.nav.history)}
+        {navLink('settings', t.nav.settings)}
         <label htmlFor="langSelect">{t.lang}:
           <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>
             <option value="en">English</option>
@@ -215,13 +244,8 @@ function App() {
           <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
         </label>
       </nav>
-      <ReactRouterDOM.Routes>
-        <ReactRouterDOM.Route path="/" element={<DashboardPage lang={lang} />} />
-        <ReactRouterDOM.Route path="/predict" element={<PredictPage lang={lang} />} />
-        <ReactRouterDOM.Route path="/history" element={<HistoryPage lang={lang} />} />
-        <ReactRouterDOM.Route path="/settings" element={<SettingsPage lang={lang} />} />
-      </ReactRouterDOM.Routes>
-    </ReactRouterDOM.BrowserRouter>
+      {renderPage()}
+    </div>
   );
 }
 
