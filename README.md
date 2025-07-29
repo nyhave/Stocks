@@ -20,7 +20,7 @@ This project is currently in the planning phase. More documentation and implemen
 The repository now includes a small CLI demonstrating the five GUI concepts:
 
 ```bash
-python3 smartportfolio_cli.py
+node smartportfolio_cli.js
 ```
 
 From the menu you can access:
@@ -46,5 +46,5 @@ A simple user interface could include:
 
 The `docs/` folder now contains a lightweight React web demo that can be served via GitHub Pages. It handles Firebase initialisation directly in the browser and uses [Tailwind CSS](https://tailwindcss.com/) for responsive styling on both mobile and desktop. If you replace it with a full React app, build it locally (for example with `npm run build`) and copy the static files into `docs/`.
 
-The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. Integration with a Python backend will be added later.
+The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. A future backend will also be written in JavaScript.
 
