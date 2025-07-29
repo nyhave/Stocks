@@ -1,15 +1,17 @@
 // Load vision document from GitHub and cache in Firestore
+import { collection, doc, getDoc, setDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
 async function loadVision() {
   if (!window.db) {
     console.error('Firestore not initialized');
     return;
   }
-  const docRef = window.db.collection('vision').doc('latest');
+  const docRef = doc(collection(window.db, 'vision'), 'latest');
   try {
-    const doc = await docRef.get();
+    const snapshot = await getDoc(docRef);
     let shouldUpdate = true;
-    if (doc.exists) {
-      const data = doc.data();
+    if (snapshot.exists()) {
+      const data = snapshot.data();
       if (data.updated && Date.now() - data.updated.toMillis() < 86400000) {
         shouldUpdate = false;
         window.visionText = data.text;
@@ -18,7 +20,7 @@ async function loadVision() {
     if (shouldUpdate) {
       const resp = await fetch('https://raw.githubusercontent.com/nyhave/Stocks/main/VISION.md');
       const text = await resp.text();
-      await docRef.set({ text, updated: firebase.firestore.Timestamp.now() });
+      await setDoc(docRef, { text, updated: Timestamp.now() });
       window.visionText = text;
     }
   } catch (err) {

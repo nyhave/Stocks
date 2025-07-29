@@ -1,5 +1,9 @@
 // Minimal Firebase setup for the SmartPortfolio React app
-// Replace with real project credentials when deploying.
+// Using the modular Firebase SDK loaded from the CDN.
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js';
+import { initializeFirestore } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
 
 // Firebase configuration for the public development project
 const firebaseConfig = {
@@ -14,15 +18,20 @@ const firebaseConfig = {
 
 function initFirebase() {
   if (window.db) {
-    console.log("Firebase already initialized");
+    console.log('Firebase already initialized');
     return;
   }
-  firebase.initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  try {
+    getAnalytics(app);
+  } catch (err) {
+    // Analytics is optional and will fail on unsupported environments
+    console.warn('Analytics init failed', err);
+  }
   // Enable fallback to long-polling in case WebSockets are blocked
-  const firestore = firebase.firestore();
-  firestore.settings({ experimentalAutoDetectLongPolling: true });
-  window.db = firestore;
-  console.log("Firebase initialized");
+  const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
+  window.db = db;
+  console.log('Firebase initialized');
 }
 
 window.initFirebase = initFirebase;
