@@ -181,13 +181,31 @@ function HistoryPage({ lang }) {
 }
 
 
-function SettingsPage({ lang }) {
+function SettingsPage({ lang, setLang, darkMode, setDarkMode }) {
   const [risk, setRisk] = React.useState('medium');
   const [freq, setFreq] = React.useState('weekly');
   const t = window.locales[lang].labels;
   return (
     <div className="container">
       <h1>{t.nav.settings}</h1>
+      <label htmlFor="langSelectSettings">{t.lang}:
+        <select
+          id="langSelectSettings"
+          value={lang}
+          onChange={e => setLang(e.target.value)}
+        >
+          <option value="en">English</option>
+          <option value="da">Dansk</option>
+        </select>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          checked={darkMode}
+          onChange={e => setDarkMode(e.target.checked)}
+        />{' '}
+        {t.darkMode}
+      </label>
       <label>{t.risk}:
         <select value={risk} onChange={e => setRisk(e.target.value)}>
           <option value="low">low</option>
@@ -250,7 +268,14 @@ function App() {
       case 'history':
         return <HistoryPage lang={lang} />;
       case 'settings':
-        return <SettingsPage lang={lang} />;
+        return (
+          <SettingsPage
+            lang={lang}
+            setLang={setLang}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+          />
+        );
       default:
         return null;
     }
@@ -285,15 +310,6 @@ function App() {
           {navLink('predict', t.nav.predict)}
           {navLink('history', t.nav.history)}
           {navLink('settings', t.nav.settings)}
-          <label htmlFor="langSelect">{t.lang}:
-            <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>
-              <option value="en">English</option>
-              <option value="da">Dansk</option>
-            </select>
-          </label>
-          <label>
-            <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
-          </label>
         </div>
       </nav>
       {renderPage()}
