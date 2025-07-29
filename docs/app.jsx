@@ -232,6 +232,7 @@ function App() {
   const [lang, setLang] = React.useState('en');
   const [darkMode, setDarkMode] = React.useState(false);
   const [page, setPage] = React.useState('dashboard');
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (window.loadVision) {
@@ -272,6 +273,7 @@ function App() {
       onClick={e => {
         e.preventDefault();
         setPage(key);
+        setMenuOpen(false);
       }}
     >
       {label}
@@ -280,21 +282,30 @@ function App() {
 
   return (
     <div>
-      <nav>
-        {navLink('dashboard', t.nav.dashboard)}
-        {navLink('predict', t.nav.predict)}
-        {navLink('history', t.nav.history)}
-        {navLink('vision', t.nav.vision)}
-        {navLink('settings', t.nav.settings)}
-        <label htmlFor="langSelect">{t.lang}:
-          <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>
-            <option value="en">English</option>
-            <option value="da">Dansk</option>
-          </select>
-        </label>
-        <label>
-          <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
-        </label>
+      <nav className={menuOpen ? 'open' : ''}>
+        <button
+          className="mobile-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          ☰
+        </button>
+        <div className="nav-links">
+          {navLink('dashboard', t.nav.dashboard)}
+          {navLink('predict', t.nav.predict)}
+          {navLink('history', t.nav.history)}
+          {navLink('vision', t.nav.vision)}
+          {navLink('settings', t.nav.settings)}
+          <label htmlFor="langSelect">{t.lang}:
+            <select id="langSelect" value={lang} onChange={e => setLang(e.target.value)}>
+              <option value="en">English</option>
+              <option value="da">Dansk</option>
+            </select>
+          </label>
+          <label>
+            <input type="checkbox" checked={darkMode} onChange={e => setDarkMode(e.target.checked)} /> {t.darkMode}
+          </label>
+        </div>
       </nav>
       {renderPage()}
     </div>
