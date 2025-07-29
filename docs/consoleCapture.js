@@ -11,7 +11,7 @@
     background: 'rgba(0,0,0,0.8)',
     color: 'white',
     fontFamily: 'monospace',
-    fontSize: '12px',
+    fontSize: '16px',
     zIndex: '10000',
     padding: '0.5em',
     display: 'none'
@@ -25,7 +25,9 @@
     color: 'white',
     border: 'none',
     cursor: 'pointer',
-    marginLeft: '0.5em'
+    marginLeft: '0.5em',
+    fontSize: '1em',
+    padding: '0.5em 1em'
   });
 
   const copyBtn = document.createElement('button');
@@ -36,7 +38,9 @@
     color: 'white',
     border: 'none',
     cursor: 'pointer',
-    marginLeft: '0.5em'
+    marginLeft: '0.5em',
+    fontSize: '1em',
+    padding: '0.5em 1em'
   });
 
   copyBtn.onclick = function() {
