@@ -5,19 +5,74 @@
   <title>SmartPortfolio React Demo</title>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <style>
     body { font-family: sans-serif; padding: 2em; }
+    label { margin-right: 1em; }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script src="firebase.js"></script>
-  <script type="text/javascript">
+  <script type="text/babel">
+    function dummyPredict(input) {
+      return {
+        actionScore: 75,
+        explanation: 'Din eksponering mod tech er for h\u00f8j',
+        transactions: [
+          { action: 'buy', ticker: 'AAPL', amount: 2 },
+          { action: 'sell', ticker: 'TSLA', amount: 1 }
+        ]
+      };
+    }
+
+    function PredictDemo() {
+      const [risk, setRisk] = React.useState('medium');
+      const [cash, setCash] = React.useState(10);
+      const [result, setResult] = React.useState(null);
+
+      const handlePredict = () => {
+        const res = dummyPredict({ risk, cash });
+        setResult(res);
+      };
+
+      return (
+        <div>
+          <h1>SmartPortfolio React Demo (with Firebase)</h1>
+          <div>
+            <label>
+              Risk:
+              <select value={risk} onChange={e => setRisk(e.target.value)}>
+                <option value="low">low</option>
+                <option value="medium">medium</option>
+                <option value="high">high</option>
+              </select>
+            </label>
+            <label>
+              Cash %:
+              <input type="number" value={cash} onChange={e => setCash(e.target.value)} />
+            </label>
+            <button onClick={handlePredict}>Predict</button>
+          </div>
+          {result && (
+            <div>
+              <h2>Result</h2>
+              <p>Action score: {result.actionScore}</p>
+              <p>{result.explanation}</p>
+              <ul>
+                {result.transactions.map((t, i) => (
+                  <li key={i}>{t.action} {t.ticker} ({t.amount})</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      );
+    }
+
     const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(
-      React.createElement('h1', null, 'SmartPortfolio React Demo (with Firebase)')
-    );
+    root.render(<PredictDemo />);
   </script>
 </body>
 </html>
