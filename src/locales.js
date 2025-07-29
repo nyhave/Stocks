@@ -26,7 +26,8 @@ window.locales = {
       notify: 'Notification frequency',
       save: 'Save settings',
       initFirebase: 'Initialize Firebase',
-      updateTickers: 'Update tickers'
+      updateTickers: 'Update tickers',
+      loadData: 'Setup and load market data'
     },
     biasExplanation: {
       none: 'No specific segment focus',
@@ -68,7 +69,8 @@ window.locales = {
       notify: 'Notifikationsfrekvens',
       save: 'Gem indstillinger',
       initFirebase: 'Initialis\u00e9r Firebase',
-      updateTickers: 'Opdater tickers'
+      updateTickers: 'Opdater tickers',
+      loadData: 'Ops\u00e6t og hent markeddata'
     },
     biasExplanation: {
       none: 'Ingen specifik segmentfokus',
