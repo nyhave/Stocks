@@ -42,15 +42,15 @@ function DashboardPage({ lang }) {
             <tr key={i}>
               <td>{h.ticker}</td>
               <td>{h.price ? h.price.toFixed(2) : '-'}</td>
-              <td>{h.weight}</td>
-              <td>{h.value.toFixed(2)}</td>
+              <td>{h.weight.toFixed(2)}</td>
+              <td>{Math.round(h.value).toLocaleString()}</td>
             </tr>
           ))}
           <tr>
             <td>Cash</td>
             <td>-</td>
             <td>{(100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)).toFixed(2)}</td>
-            <td>{(window.demoPortfolio.invested * (100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)) / 100).toFixed(2)}</td>
+            <td>{Math.round(window.demoPortfolio.invested * (100 - window.demoPortfolio.holdings.reduce((a, b) => a + b.weight, 0)) / 100).toLocaleString()}</td>
           </tr>
         </tbody>
       </table>
@@ -132,7 +132,7 @@ function PredictPage({ lang }) {
             return (
               <div key={idx} className="portfolio">
                 <h3>{p.name}</h3>
-                <p>{t.expectedReturn}: {p.expectedReturn.toFixed(0)}</p>
+                <p>{t.expectedReturn}: {Math.round(p.expectedReturn).toLocaleString()}</p>
                 <button
                   className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
                   onClick={() => setSelected(idx)}
@@ -142,12 +142,12 @@ function PredictPage({ lang }) {
                 {selected === idx && (
                   <div>
                     <p>{p.explanation}</p>
-                    <p>{t.improvement}: {improvement.toFixed(0)}</p>
+                    <p>{t.improvement}: {Math.round(improvement).toLocaleString()}</p>
                     <table className="transactions">
                       <thead><tr><th>Ticker</th><th>%</th></tr></thead>
                       <tbody>
                         {p.holdings.map((h, j) => (
-                          <tr key={j}><td>{h.ticker}</td><td>{h.weight}</td></tr>
+                          <tr key={j}><td>{h.ticker}</td><td>{h.weight.toFixed(2)}</td></tr>
                         ))}
                       </tbody>
                     </table>
@@ -172,7 +172,7 @@ function HistoryPage({ lang }) {
         {demoHistory.map((v, i) => (
           <li key={i}>
             <div className="bar" style={{ width: (v / max) * 100 + '%' }}></div>
-            {v.toFixed(0)}
+            {Math.round(v).toLocaleString()}
           </li>
         ))}
       </ul>
