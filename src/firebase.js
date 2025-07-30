@@ -11,6 +11,8 @@ import {
   setDoc
 } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
+console.log('firebase.js loaded');
+
 // Firebase configuration for the public development project
 const firebaseConfig = {
   apiKey: "AIzaSyAsg49ymxVQYoHzWJPFrYCE6E0pjGd54aI",
@@ -22,6 +24,7 @@ const firebaseConfig = {
 };
 
 function initFirebase() {
+  console.log('initFirebase called');
   if (window.db) {
     console.log('Firebase already initialized');
     return;
@@ -36,10 +39,11 @@ function initFirebase() {
   // Enable fallback to long-polling in case WebSockets are blocked
   const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
   window.db = db;
-  console.log('Firebase initialized');
+  console.log('Firebase initialized, window.db set');
 }
 
 async function checkFirestoreConnection(db) {
+  console.log('checkFirestoreConnection called');
   const testRef = doc(collection(db, 'connectionTest'), 'ping');
   try {
     await setDoc(testRef, { time: Date.now() });
@@ -59,12 +63,14 @@ async function checkFirestoreConnection(db) {
 }
 
 async function testFirestoreConnection() {
+  console.log('testFirestoreConnection called');
   if (!window.db) {
     console.warn('Firestore not initialized');
     alert('Firestore not initialized');
     return;
   }
   const ok = await checkFirestoreConnection(window.db);
+  console.log('checkFirestoreConnection result', ok);
   if (ok) {
     alert('Connection test succeeded');
   } else {
