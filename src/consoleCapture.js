@@ -87,4 +87,20 @@
   window.addEventListener('error', function(e) {
     addMessage('error', [e.message + ' (' + e.filename + ':' + e.lineno + ')']);
   });
+
+  window.addEventListener('unhandledrejection', function(e) {
+    let msg = '';
+    if (e.reason && e.reason.message) {
+      msg = e.reason.message;
+    } else if (typeof e.reason === 'string') {
+      msg = e.reason;
+    } else {
+      try {
+        msg = JSON.stringify(e.reason);
+      } catch {
+        msg = String(e.reason);
+      }
+    }
+    addMessage('error', ['Unhandled rejection: ' + msg]);
+  });
 })();
