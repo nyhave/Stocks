@@ -26,7 +26,9 @@ async function loadMarketData() {
       const resp = await fetch(
         `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
       );
-      const json = await resp.json();
+      const text = await resp.text();
+      console.log('Yahoo response:', text);
+      const json = JSON.parse(text);
       const quotes = {};
       if (json && json.quoteResponse && json.quoteResponse.result) {
         json.quoteResponse.result.forEach(r => {
@@ -36,6 +38,7 @@ async function loadMarketData() {
           };
         });
       }
+      console.log('Parsed quotes:', quotes);
       await setDoc(docRef, { quotes, updated: Timestamp.now() });
       window.marketData = quotes;
     }
