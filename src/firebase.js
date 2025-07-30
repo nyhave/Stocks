@@ -39,8 +39,11 @@ function initFirebase() {
     // Analytics is optional and will fail on unsupported environments
     console.warn('Analytics init failed', err);
   }
-  // Enable fallback to long-polling in case WebSockets are blocked
-  const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
+  // Force long-polling in case WebSockets or streaming fetch are blocked
+  const db = initializeFirestore(app, {
+    experimentalForceLongPolling: true,
+    useFetchStreams: false,
+  });
   // Log detailed Firestore errors to help with debugging
   setLogLevel('debug');
   console.log('Firestore initialized');
