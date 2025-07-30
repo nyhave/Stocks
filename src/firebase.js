@@ -19,7 +19,8 @@ const firebaseConfig = {
   apiKey: "AIzaSyAsg49ymxVQYoHzWJPFrYCE6E0pjGd54aI",
   authDomain: "stocks-c40b4.firebaseapp.com",
   projectId: "stocks-c40b4",
-  storageBucket: "stocks-c40b4.firebasestorage.app",
+  // Corrected bucket URL so Firebase services work properly
+  storageBucket: "stocks-c40b4.appspot.com",
   messagingSenderId: "40268119136",
   appId: "1:40268119136:web:cf226f44f801c53087d705"
 };
@@ -39,10 +40,11 @@ function initFirebase() {
     // Analytics is optional and will fail on unsupported environments
     console.warn('Analytics init failed', err);
   }
-  // Force long-polling in case WebSockets or streaming fetch are blocked
+  // Auto-detect the best connection method for Firestore. This
+  // falls back to long polling when WebSockets or streaming fetch
+  // are not available, which is more robust than forcing it.
   const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-    useFetchStreams: false,
+    experimentalAutoDetectLongPolling: true,
   });
   // Log detailed Firestore errors to help with debugging
   setLogLevel('debug');
