@@ -24,7 +24,7 @@ const firebaseConfig = {
   authDomain: "stocks-c40b4.firebaseapp.com",
   projectId: "stocks-c40b4",
   // Corrected bucket URL so Firebase services work properly
-  storageBucket: "stocks-c40b4.appspot.com",
+  storageBucket: "stocks-c40b4.firebasestorage.app",
   messagingSenderId: "40268119136",
   appId: "1:40268119136:web:cf226f44f801c53087d705"
 };
