@@ -44,11 +44,12 @@ async function initFirebase() {
     // Analytics is optional and will fail on unsupported environments
     console.warn('Analytics init failed', err);
   }
-  // Auto-detect the best connection method for Firestore. This
-  // falls back to long polling when WebSockets or streaming fetch
-  // are not available, which is more robust than forcing it.
+  // Force long polling for Firestore since some environments block
+  // WebSockets or streaming fetch. This improves reliability on
+  // GitHub Pages and similar static hosts.
   const db = initializeFirestore(app, {
-    experimentalAutoDetectLongPolling: true,
+    experimentalForceLongPolling: true,
+    useFetchStreams: false,
   });
   try {
     await enableIndexedDbPersistence(db);
