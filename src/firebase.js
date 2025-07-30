@@ -8,7 +8,8 @@ import {
   collection,
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  setLogLevel
 } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
 console.log('firebase.js loaded');
@@ -40,6 +41,8 @@ function initFirebase() {
   }
   // Enable fallback to long-polling in case WebSockets are blocked
   const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
+  // Log detailed Firestore errors to help with debugging
+  setLogLevel('debug');
   console.log('Firestore initialized');
   window.db = db;
   console.log('Firebase initialized, window.db set');
@@ -51,7 +54,13 @@ async function checkFirestoreConnection(db) {
   console.log('Test reference', testRef.path);
   try {
     console.log('Writing test ping');
-    await setDoc(testRef, { time: Date.now() });
+    // Race the Firestore write against a timeout to surface network issues
+    await Promise.race([
+      setDoc(testRef, { time: Date.now() }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('setDoc timed out after 10s')), 10000)
+      )
+    ]);
     console.log('First write succeeded / Første skrivning lykkedes');
     console.log('Reading back test ping');
     const snap = await getDoc(testRef);
