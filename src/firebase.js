@@ -29,7 +29,7 @@ const firebaseConfig = {
 
 async function initFirebase() {
   if (window.db) {
-    return;
+    return window.db;
   }
   const app = initializeApp(firebaseConfig);
   try {
@@ -45,13 +45,16 @@ async function initFirebase() {
     experimentalForceLongPolling: true,
     useFetchStreams: false,
   });
+  // Expose the db instance immediately so other functions can use Firestore
+  // even if enabling persistence takes a bit longer
+  window.db = db;
   try {
     await enableIndexedDbPersistence(db);
   } catch (err) {
     console.warn('Offline persistence unavailable', err);
   }
   setLogLevel('error');
-  window.db = db;
+  return db;
 }
 
 async function checkFirestoreConnection(db) {

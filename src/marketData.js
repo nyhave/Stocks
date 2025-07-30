@@ -3,8 +3,13 @@ import { collection, doc, getDoc, setDoc, Timestamp } from 'https://www.gstatic.
 
 async function loadMarketData() {
   if (!window.db) {
-    console.error('Firestore not initialized');
-    return;
+    if (window.initFirebase) {
+      await window.initFirebase();
+    }
+    if (!window.db) {
+      console.error('Firestore not initialized');
+      return;
+    }
   }
   const docRef = doc(collection(window.db, 'marketData'), 'latest');
   try {
