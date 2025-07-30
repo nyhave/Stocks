@@ -20,6 +20,18 @@ function DashboardPage({ lang }) {
     getHoldingsWithValue(window.demoPortfolio)
   );
 
+  const sumWeights = window.demoPortfolio.holdings.reduce(
+    (a, b) => a + b.weight,
+    0
+  );
+  const cashWeight = 100 - sumWeights;
+  const cashValue =
+    window.demoPortfolio.cash !== undefined
+      ? window.demoPortfolio.cash
+      : (window.demoPortfolio.invested * cashWeight) / 100;
+  const totalValue = window.demoPortfolio.invested;
+  const activities = window.demoPortfolio.activities || [];
+
   React.useEffect(() => {
     window.updateHoldings = () => {
       setHoldings(getHoldingsWithValue(window.demoPortfolio));
@@ -34,9 +46,11 @@ function DashboardPage({ lang }) {
   return (
     <div className="container">
       <h1>SmartPortfolio Dashboard</h1>
+      <p>{t.totalValue}: {Math.round(totalValue).toLocaleString()}</p>
+      <p>{t.cashBalance}: {Math.round(cashValue).toLocaleString()}</p>
       <table className="transactions">
         <thead>
-          <tr><th>Ticker</th><th>{t.price}</th><th>%</th><th>Value (DDK)</th></tr>
+          <tr><th>Ticker</th><th>{t.price}</th><th>%</th><th>Value (DKK)</th></tr>
         </thead>
         <tbody>
           {holdings.map((h, i) => (
@@ -55,6 +69,18 @@ function DashboardPage({ lang }) {
           </tr>
         </tbody>
       </table>
+      {activities.length > 0 && (
+        <div>
+          <h2>{t.recentActivity}</h2>
+          <ul>
+            {activities.slice(-5).map((a, i) => (
+              <li key={i}>
+                {a.description}: {Math.round(a.amount).toLocaleString()}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

@@ -18,6 +18,9 @@ window.locales = {
       show: 'Explain',
       improvement: 'Improvement',
       expectedReturn: 'Est. return',
+      totalValue: 'Total value',
+      cashBalance: 'Cash balance',
+      recentActivity: 'Recent activity',
       nav: {
         dashboard: 'Dashboard',
         predict: 'Predict',
