@@ -12,6 +12,7 @@ window.locales = {
       cost: 'Cost',
       price: 'Price',
       actions: { buy: 'Buy', sell: 'Sell' },
+      type: 'Type',
       cashError: 'Cash percentage must be between 0 and 100',
       select: 'Select',
       show: 'Explain',
@@ -28,7 +29,14 @@ window.locales = {
       initFirebase: 'Initialize Firebase',
       testConnection: 'Test connection',
       readMarket: 'Read market data',
-      updateTickers: 'Update tickers'
+      updateTickers: 'Update tickers',
+      range: 'Period',
+      highest: 'Highest value',
+      lowest: 'Lowest value',
+      change: 'Change %',
+      averageReturn: 'Average return %',
+      transactions: 'Transactions',
+      exportCsv: 'Export CSV'
     },
     biasExplanation: {
       none: 'No specific segment focus',

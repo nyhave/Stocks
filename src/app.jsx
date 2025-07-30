@@ -10,9 +10,47 @@ function getHoldingsWithValue(portfolio) {
 }
 
 
-const demoHistory = [
-  1000000, 1005000, 995000, 1010000, 1025000,
-  1018000, 1032000, 1040000, 1035000, 1050000
+// Demo portfolio history and benchmark values for different ranges
+const demoHistory = {
+  oneMonth: [
+    1040000, 1045000, 1042000, 1048000, 1050000,
+    1053000, 1051000, 1056000, 1058000, 1060000,
+    1062000, 1065000, 1063000, 1067000, 1070000,
+    1072000, 1075000, 1073000, 1078000, 1080000,
+    1083000, 1082000, 1087000, 1089000, 1090000,
+    1092000, 1094000, 1096000, 1098000, 1100000
+  ],
+  sixMonths: [
+    980000, 990000, 995000, 1000000, 1005000, 995000,
+    1010000, 1025000, 1018000, 1032000, 1040000, 1035000,
+    1050000
+  ],
+  oneYear: [
+    950000, 960000, 970000, 980000, 990000, 995000,
+    1000000, 1005000, 995000, 1010000, 1025000,
+    1018000, 1032000, 1040000, 1035000, 1050000
+  ],
+  benchmark: {
+    oneMonth: Array.from({ length: 30 }, (_, i) => 1000000 + i * 2000),
+    sixMonths: [
+      970000, 975000, 980000, 985000, 990000, 995000,
+      1000000, 1005000, 1008000, 1011000, 1014000, 1017000,
+      1020000
+    ],
+    oneYear: [
+      930000, 940000, 950000, 960000, 970000, 980000,
+      990000, 995000, 1000000, 1005000, 1010000,
+      1015000, 1020000, 1025000, 1030000, 1035000
+    ]
+  }
+};
+
+const demoTransactions = [
+  { date: '2025-01-05', type: 'buy', ticker: 'AAPL', qty: 15, price: 150 },
+  { date: '2025-02-10', type: 'sell', ticker: 'GOOG', qty: 5, price: 2800 },
+  { date: '2025-03-15', type: 'buy', ticker: 'MSFT', qty: 10, price: 320 },
+  { date: '2025-04-01', type: 'buy', ticker: 'NVDA', qty: 8, price: 600 },
+  { date: '2025-05-20', type: 'sell', ticker: 'NFLX', qty: 4, price: 500 }
 ];
 
 function DashboardPage({ lang }) {
@@ -163,19 +201,112 @@ function PredictPage({ lang }) {
 }
 
 function HistoryPage({ lang }) {
-  const max = Math.max(...demoHistory);
+  const [range, setRange] = React.useState('oneYear');
+  const chartRef = React.useRef(null);
+  const chartInstanceRef = React.useRef(null);
   const t = window.locales[lang].labels;
+
+  const exportCsv = () => {
+    const rows = [
+      ['Date', 'Type', 'Ticker', 'Qty', 'Price']
+    ].concat(
+      demoTransactions.map(tr => [
+        tr.date,
+        tr.type,
+        tr.ticker,
+        tr.qty,
+        tr.price
+      ])
+    );
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      rows.map(r => r.join(',')).join('\n');
+    const link = document.createElement('a');
+    link.href = csvContent;
+    link.download = 'transactions.csv';
+    link.click();
+  };
+
+  React.useEffect(() => {
+    if (!chartRef.current) return;
+    const ctx = chartRef.current.getContext('2d');
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+    chartInstanceRef.current = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: demoHistory[range].map((_, i) => i + 1),
+        datasets: [
+          {
+            label: 'Portfolio',
+            data: demoHistory[range],
+            borderColor: 'blue',
+            fill: false
+          },
+          {
+            label: 'Benchmark',
+            data: demoHistory.benchmark[range],
+            borderColor: 'green',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  }, [range]);
+
+  const values = demoHistory[range];
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const change = ((values[values.length - 1] - values[0]) / values[0]) * 100;
+  const avg = change / values.length;
+
   return (
     <div className="container">
       <h1>{t.nav.history}</h1>
-      <ul className="history">
-        {demoHistory.map((v, i) => (
-          <li key={i}>
-            <div className="bar" style={{ width: (v / max) * 100 + '%' }}></div>
-            {Math.round(v).toLocaleString()}
-          </li>
-        ))}
-      </ul>
+      <label>{t.range}:
+        <select value={range} onChange={e => setRange(e.target.value)}>
+          <option value="oneMonth">1M</option>
+          <option value="sixMonths">6M</option>
+          <option value="oneYear">1Y</option>
+        </select>
+      </label>
+      <canvas ref={chartRef}></canvas>
+      <div>
+        <p>{t.highest}: {Math.round(max).toLocaleString()}</p>
+        <p>{t.lowest}: {Math.round(min).toLocaleString()}</p>
+        <p>{t.change}: {change.toFixed(2)}</p>
+        <p>{t.averageReturn}: {avg.toFixed(2)}</p>
+      </div>
+      <h2>{t.transactions}</h2>
+      <button
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+        onClick={exportCsv}
+      >
+        {t.exportCsv}
+      </button>
+      <table className="transactions">
+        <thead>
+          <tr>
+            <th>Date</th><th>{t.type}</th><th>Ticker</th><th>Qty</th><th>{t.price}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {demoTransactions.map((tr, idx) => (
+            <tr key={idx} className={tr.type}>
+              <td>{tr.date}</td>
+              <td>{t.actions[tr.type]}</td>
+              <td>{tr.ticker}</td>
+              <td>{tr.qty}</td>
+              <td>{tr.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
