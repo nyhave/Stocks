@@ -30,6 +30,7 @@ function DashboardPage({ lang }) {
   }, []);
 
   const t = window.locales[lang].labels;
+  const biasText = window.locales[lang].biasExplanation[bias];
   return (
     <div className="container">
       <h1>SmartPortfolio Dashboard</h1>
@@ -102,7 +103,23 @@ function PredictPage({ lang }) {
           </select>
         </label>
         <label htmlFor="cash">{t.cash}:
-          <input id="cash" type="number" min="0" max="100" value={cash} onChange={handleCashChange} />
+          <input
+            id="cash"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value={cash}
+            onChange={handleCashChange}
+          />
+          <input
+            type="number"
+            min="0"
+            max="100"
+            value={cash}
+            onChange={handleCashChange}
+            className="ml-2 w-16"
+          />
         </label>
         <label htmlFor="bias">{t.bias}:
           <select id="bias" value={bias} onChange={e => setBias(e.target.value)}>
@@ -112,6 +129,7 @@ function PredictPage({ lang }) {
             <option value="industrial">industrial</option>
           </select>
         </label>
+        <p className="text-sm italic">{t.biasExplanationLabel}: {biasText}</p>
         {cashError && <div className="error">{cashError}</div>}
         <button
           className="bg-blue-600 text-white text-xl px-6 py-3 rounded disabled:opacity-50 w-full sm:w-auto"

@@ -84,6 +84,7 @@ The predict function combines a scoring model and rule set to ensure diversifica
 
 ### Client-side app
 The React app uses a lightweight JavaScript version called `clientPredict`. It offers three suggested portfolios based on risk level, cash percentage and a chosen segment bias. Each suggestion includes an estimated return so users can compare before selecting.
+The Predict page also features a slider to adjust the cash percentage and shows a short explanation for the selected segment bias so the user knows what each option means.
 
 ### Example call
 ```javascript
