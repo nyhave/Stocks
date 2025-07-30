@@ -9,7 +9,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  setLogLevel
+  setLogLevel,
+  enableIndexedDbPersistence
 } from 'https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js';
 
 console.log('firebase.js loaded');
@@ -25,7 +26,7 @@ const firebaseConfig = {
   appId: "1:40268119136:web:cf226f44f801c53087d705"
 };
 
-function initFirebase() {
+async function initFirebase() {
   console.log('initFirebase called');
   console.log('Firebase config', firebaseConfig);
   if (window.db) {
@@ -46,6 +47,12 @@ function initFirebase() {
   const db = initializeFirestore(app, {
     experimentalAutoDetectLongPolling: true,
   });
+  try {
+    await enableIndexedDbPersistence(db);
+    console.log('Offline persistence enabled');
+  } catch (err) {
+    console.warn('Offline persistence unavailable', err);
+  }
   // Log detailed Firestore errors to help with debugging
   setLogLevel('debug');
   console.log('Firestore initialized');
