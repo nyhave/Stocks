@@ -7,13 +7,10 @@ async function loadVision() {
     return;
   }
   const docRef = doc(collection(window.db, 'vision'), 'latest');
-  console.log('Vision docRef', docRef.path);
   try {
-    console.log('Checking cached vision text');
     const snapshot = await getDoc(docRef);
     let shouldUpdate = true;
     if (snapshot.exists()) {
-      console.log('Found cached vision', snapshot.data());
       const data = snapshot.data();
       if (data.updated && Date.now() - data.updated.toMillis() < 86400000) {
         shouldUpdate = false;
@@ -21,10 +18,8 @@ async function loadVision() {
       }
     }
     if (shouldUpdate) {
-      console.log('Fetching vision from GitHub');
       const resp = await fetch('https://raw.githubusercontent.com/nyhave/Stocks/main/VISION.md');
       const text = await resp.text();
-      console.log('Saving vision to Firestore');
       await setDoc(docRef, { text, updated: Timestamp.now() });
       window.visionText = text;
     }
