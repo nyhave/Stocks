@@ -4,6 +4,7 @@ window.locales = {
       risk: 'Risk',
       cash: 'Cash %',
       bias: 'Segment bias',
+      biasExplanationLabel: 'Bias explanation',
       lang: 'Language',
       predict: 'Predict',
       predicting: 'Predicting...',
