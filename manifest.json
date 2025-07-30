@@ -1,0 +1,16 @@
+{
+  "name": "SmartPortfolio",
+  "short_name": "SmartPortfolio",
+  "description": "Portfolio optimization web app / Porteføljeoptimering webapp",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#003366",
+  "theme_color": "#003366",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

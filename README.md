@@ -36,3 +36,13 @@ The old Flutter demo has been removed. If no build is present, the page shows a 
 
 Sample command-line scripts demonstrating the portfolio logic are located in `src/smartportfolio/`. They can be executed with Node for quick experimentation.
 
+
+## Progressive Web App
+
+SmartPortfolio can be installed as a Progressive Web App on modern browsers. When installed, the app opens in its own window without the browser address bar.
+
+1. Open [SmartPortfolio](https://morninj.github.io/SmartPortfolio/) in your mobile or desktop browser.
+2. Use the browser's **Add to Home Screen** or **Install** option.
+3. Launch the app from the home screen to run it in standalone mode.
+
+The manifest and service worker needed for installation are included in the repository.
