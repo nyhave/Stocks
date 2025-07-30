@@ -14,6 +14,9 @@ import {
 
 console.log('firebase.js loaded');
 
+// Allow Firestore writes some time to complete on the first connection
+const FIRESTORE_WRITE_TIMEOUT_MS = 20000;
+
 // Firebase configuration for the public development project
 const firebaseConfig = {
   apiKey: "AIzaSyAsg49ymxVQYoHzWJPFrYCE6E0pjGd54aI",
@@ -63,7 +66,7 @@ async function checkFirestoreConnection(db) {
     await Promise.race([
       setDoc(testRef, { time: Date.now() }),
       new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('setDoc timed out after 10s')), 10000)
+        setTimeout(() => reject(new Error(`setDoc timed out after ${FIRESTORE_WRITE_TIMEOUT_MS/1000}s`)), FIRESTORE_WRITE_TIMEOUT_MS)
       )
     ]);
     console.log('First write succeeded / Første skrivning lykkedes');
