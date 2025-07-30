@@ -37,7 +37,6 @@ function initFirebase() {
   const db = initializeFirestore(app, { experimentalAutoDetectLongPolling: true });
   window.db = db;
   console.log('Firebase initialized');
-  checkFirestoreConnection(db);
 }
 
 async function checkFirestoreConnection(db) {
@@ -48,12 +47,31 @@ async function checkFirestoreConnection(db) {
     const snap = await getDoc(testRef);
     if (snap.exists()) {
       console.log('Connection test succeeded / Forbindelsestest lykkedes');
+      return true;
     } else {
       console.warn('Connection test failed / Forbindelsestest fejlede');
+      return false;
     }
   } catch (err) {
     console.error('First write failed / Første skrivning fejlede', err);
+    return false;
   }
 }
+
+async function testFirestoreConnection() {
+  if (!window.db) {
+    console.warn('Firestore not initialized');
+    alert('Firestore not initialized');
+    return;
+  }
+  const ok = await checkFirestoreConnection(window.db);
+  if (ok) {
+    alert('Connection test succeeded');
+  } else {
+    alert('Connection test failed');
+  }
+}
+
+window.testConnection = testFirestoreConnection;
 
 window.initFirebase = initFirebase;

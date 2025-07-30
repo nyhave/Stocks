@@ -232,15 +232,34 @@ function SettingsPage({ lang, setLang, darkMode, setDarkMode }) {
           if (window.initFirebase) {
             window.initFirebase();
           }
+        }}
+        title={t.initFirebase}
+      >
+        {t.initFirebase}
+      </button>
+      <button
+        className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
+        onClick={() => {
+          if (window.testConnection) {
+            window.testConnection();
+          }
+        }}
+        title={t.testConnection}
+      >
+        {t.testConnection}
+      </button>
+      <button
+        className="bg-blue-600 text-white text-xl px-6 py-3 rounded mt-2 w-full sm:w-auto"
+        onClick={() => {
           if (window.loadMarketData) {
             window.loadMarketData().then(() => {
               if (window.updateHoldings) window.updateHoldings();
             });
           }
         }}
-        title={t.loadData}
+        title={t.readMarket}
       >
-        {t.loadData}
+        {t.readMarket}
       </button>
     </div>
   );

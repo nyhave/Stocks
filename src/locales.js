@@ -26,8 +26,9 @@ window.locales = {
       notify: 'Notification frequency',
       save: 'Save settings',
       initFirebase: 'Initialize Firebase',
-      updateTickers: 'Update tickers',
-      loadData: 'Setup and load market data'
+      testConnection: 'Test connection',
+      readMarket: 'Read market data',
+      updateTickers: 'Update tickers'
     },
     biasExplanation: {
       none: 'No specific segment focus',
