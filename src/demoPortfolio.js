@@ -1,5 +1,7 @@
 window.demoPortfolio = {
   invested: 1500000,
+  // Estimated cash position based on unused weight
+  cash: 95100,
   holdings: [
     { ticker: 'AMZN', weight: 7 },
     { ticker: 'AXP', weight: 7 },
@@ -16,5 +18,11 @@ window.demoPortfolio = {
     { ticker: 'PLTR', weight: 5.18 },
     { ticker: 'RR.L', weight: 6.28 },
     { ticker: 'SNOW', weight: 6.88 },
+  ],
+  // Sample recent portfolio activity
+  activities: [
+    { description: 'Bought NVDA', amount: 30000 },
+    { description: 'Sold GE', amount: -40000 },
+    { description: 'Bought AMZN', amount: 25000 }
   ]
 };
