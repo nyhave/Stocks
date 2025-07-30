@@ -1,13 +1,12 @@
 # 📊 SmartPortfolio
+Welcome to the SmartPortfolio documentation site. View the code repository on [GitHub](../).
 
 This repository contains the early planning documents for **SmartPortfolio**, a web and mobile application aimed at helping private investors optimize their stock portfolios.
 
 See [VISION.md](VISION.md) for the detailed vision statement in both Danish and English.
 
-The documentation is also available via GitHub Pages in the `docs/` folder.
-
-
 ## Overview
+
 SmartPortfolio is intended to:
 
 - Provide an easy-to-understand portfolio overview
@@ -17,7 +16,21 @@ SmartPortfolio is intended to:
 
 This project is currently in the planning phase. More documentation and implementation details will follow as development progresses.
 
-The React application in the repository root is now the production front-end served via GitHub Pages.
+## Command Line Demo
+
+The repository now includes a small CLI demonstrating the five GUI concepts:
+
+```bash
+python3 smartportfolio_cli.py
+```
+
+From the menu you can access:
+
+1. **Dashboard** – shows a mock portfolio overview
+2. **Recommendations** – prints example buy/sell suggestions
+3. **Simulation mode** – lets you test a trade before approving
+4. **Portfolio history** – displays a simple ASCII chart
+5. **Settings** – change risk level and notification frequency
 
 ## GUI Concept
 
@@ -28,13 +41,4 @@ A simple user interface could include:
 3. **Simulation mode** – preview the effect of potential trades before approving them.
 4. **Portfolio history** – charts of performance compared to benchmarks.
 5. **Settings** – personal preferences for risk level, sectors, and notification frequency.
-
-
-## React App
-
-The project root hosts `index.html` which contains the production React application served from GitHub Pages. The supporting scripts live inside the `src/` folder. Build the app locally (for example with `npm run build`) and copy the static files into `src/` when updating the site.
-
-The old Flutter demo has been removed. If no build is present, the page shows a simple placeholder message. The backend will also be written in JavaScript.
-
-Sample command-line scripts demonstrating the portfolio logic are located in `src/smartportfolio/`. They can be executed with Node for quick experimentation.
 
