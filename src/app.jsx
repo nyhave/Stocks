@@ -80,7 +80,6 @@ function DashboardPage({ lang }) {
   }, []);
 
   const t = window.locales[lang].labels;
-  const biasText = window.locales[lang].biasExplanation[bias];
   return (
     <div className="container">
       <h1>SmartPortfolio Dashboard</h1>
@@ -132,6 +131,7 @@ function PredictPage({ lang }) {
   const [loading, setLoading] = React.useState(false);
   const [cashError, setCashError] = React.useState(null);
   const t = window.locales[lang].labels;
+  const biasText = window.locales[lang].biasExplanation[bias];
 
   const handleCashChange = e => {
     const val = Number(e.target.value);
