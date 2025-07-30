@@ -19,8 +19,12 @@ async function loadMarketData() {
     }
     if (shouldUpdate) {
       const tickers = window.demoPortfolio.holdings.map(h => h.ticker).join(',');
+      const url =
+        `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers}`;
+      // Yahoo Finance does not send CORS headers, so we use a public proxy
+      // to make the request browser-friendly.
       const resp = await fetch(
-        `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers}`
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
       );
       const json = await resp.json();
       const quotes = {};
