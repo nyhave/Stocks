@@ -46,9 +46,7 @@
     navigator.clipboard.writeText(text);
   };
 
-  let dismissed = false;
   dismissBtn.onclick = function() {
-    dismissed = true;
     overlay.style.display = 'none';
   };
 
@@ -56,12 +54,10 @@
   overlay.appendChild(copyBtn);
   overlay.appendChild(dismissBtn);
   overlay.appendChild(list);
-  document.addEventListener('DOMContentLoaded', function() {
-    document.body.appendChild(overlay);
-  });
+  document.body.appendChild(overlay);
 
   function showOverlay() {
-    if (!dismissed) overlay.style.display = 'block';
+    overlay.style.display = 'block';
   }
 
   function addMessage(type, args) {
