@@ -16,7 +16,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Firebase modular SDK imports are handled inside our modules -->
   <style>
-    body {
+body {
       margin: 0;
       font-family: sans-serif;
       display: flex;
@@ -24,6 +24,18 @@
       flex-direction: column;
       transition: background 0.3s, color 0.3s;
       background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    }
+    body { padding-bottom: 3.5em; }
+    #ad-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+      text-align: center;
+      padding: 0.7em 0.5em;
+      z-index: 200;
     }
     .container {
       flex: 1;
@@ -90,6 +102,7 @@
 </head>
 <body>
   <div id="root"></div>
+  <a id="ad-banner" href="https://nyhave.github.io/VideoTinder/" target="_blank" rel="noopener noreferrer">Try RealDate today!</a>
   <script src="src/consoleCapture.js"></script>
   <script type="module" src="src/firebase.js"></script>
   <script src="src/locales.js"></script>
