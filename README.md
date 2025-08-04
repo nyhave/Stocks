@@ -4,8 +4,10 @@ This repository contains the early planning documents for **SmartPortfolio**, a 
 
 See [VISION.md](VISION.md) for the detailed vision statement in both Danish and English.
 
-## Overview
+The documentation is also available via GitHub Pages in the `docs/` folder.
 
+
+## Overview
 SmartPortfolio is intended to:
 
 - Provide an easy-to-understand portfolio overview
